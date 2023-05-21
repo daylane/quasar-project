@@ -12,22 +12,22 @@ const routes = [
     }),
   },
   {
-    path: '/',
+    path: '/encomendas',
     component: () => import('layouts/MainLayout.vue'),
     children: [{
-      path: '/',
-      name: 'loginUser',
+      path: '/encomendas',
+      name: 'encomendas',
       component: () => import('pages/TelaEscolha.vue'),
     },
     ],
   },
   {
-    path: '/cadastroUsuario',
+    path: '/cadastrousuario',
     name: 'Cadastro de Usuario',
     component: () => import('pages/cadastroUsuario.vue'),
   },
   {
-    path: '/login',
+    path: '/',
     name: 'Login Usuario',
     component: () => import('pages/LoginPageMorador.vue'),
   },
