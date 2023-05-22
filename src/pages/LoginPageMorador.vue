@@ -10,12 +10,8 @@
       <q-form class="form">
         <div class="mt-3">
           <q-label style="color: #cb4335"> CPF </q-label>
-          <q-input
-            v-model="cpf"
-            label="Insira o CPF"
-            lazy-rules:
-            rules="[ (val) => (val && val.length >0) || 'O Campo obrigatório']"
-          />
+          <q-input v-model="cpf" label="Insira o CPF" lazy-rules:
+            rules="[ (val) => (val && val.length >0) || 'O Campo obrigatório']" />
         </div>
         <div class="mt-3">
           <q-label style="color: #cb4335">Nº APARTAMENTO</q-label>
@@ -27,7 +23,6 @@
   </div>
 </template>
 <script setup>
-// const axios = require('axios').default;
 </script>
 <style>
 .container {
@@ -40,6 +35,7 @@
   align-items: center;
   width: 100%;
 }
+
 .logo {
   width: 150px;
   display: block;
