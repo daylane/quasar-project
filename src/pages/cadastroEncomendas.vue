@@ -1,42 +1,55 @@
 <template>
   <div class="q-pa-md">
     <h1>Cadastrar Encomendas</h1>
-    <q-form @submit="onSubmit" class="q-gutter-md q-mt-xl">
-      <q-input filled v-model="productDescription" label="Qual o produto" hint="Tipo do Produto" lazy-rules :rules="[
-        (val) => (val.trim() && val.length > 0) || 'O campo é obrigatório.',
-        ,
-        ,
+
+    <q-from @submit="onSubmit" class="q-gutter-md q-mt-xl">
+
+      <q-input filled v-model="cpf" label="CPF da Encomenda" lazy-rules :rules="[
+        (val) => val.trim() != '' || 'Campo obrigatório.'
+      ]" />
+      <q-input filled v-model="destinatario" label="Apartamento de Destino" lazy-rules :rules="[
+        (val) => val.trim() != '' || 'Campo obrigatório.'
       ]" />
 
-      <q-select filled v-model="apartment" :options="apartmentData" hint="Selecione o apartamento"
-        :rules="[(val) => val.trim() !== '' || 'O campo é obrigatório.']" />
+      <q-input filled v-model="recebedor" label="Quem está recebendo?" />
 
-      <q-input filled v-model="recipient" label="Recebedor" hint="Quem recebeu o produto?" />
-      <q-input filled v-model="receiptDate" label="Data de Recebimento" hint="Quando foi recebido?" />
-      <div class="flex flex-center q-mt">
-        <q-btn type="submit" color="primary" label="Cadastrar" />
-      </div>
-    </q-form>
+      <q-input filled v-model="coletor" label="Quem irá recebeber?" />
+
+      <q-input filled v-model="dataRecebimento" label="Data de recebimento" lazy-rules :rules="[
+        (val) => val.trim() != '' || 'Campo obrigatório.'
+      ]" />
+
+      <q-input filled v-model="dataRetirada" label="Data de retirada" />
+
+    </q-from>
+
+    <div class="flex flex-center q-mt">
+      <q-btn type="submit" color="primary" label="Cadastrar" />
+    </div>
   </div>
 </template>
+
 <script >
-import { Notify } from 'quasar';
+import { Notify, alert } from 'quasar';
 import { ref, onMounted } from 'vue';
 import { api } from 'src/boot/axios';
 
-const productDescription = ref('');
-const apartment = ref('');
-const recipient = ref('');
-const receiptDate = ref('');
-const user = ref({});
+const cpf = ref('');
+const destinatario = ref('');
+const recebedor = ref('');
+const coletor = ref('');
+const dataRecebimento = ref('');
+const dataRetirada = ref('');
 
 const sendOrders = () => {
   api
     .post('/encomendas', {
-      productDescription: productDescription.value,
-      apartment: apartment.value,
-      recipient: recipient.value,
-      receiptDate: receiptDate.value,
+      cpf: cpf.value,
+      destinatario: destinatario.value,
+      recebedor: recebedor.value,
+      coletor: coletor.value,
+      dataRecebimento: dataRecebimento.value,
+      dataRetirada: dataRetirada.value,
     })
     .then(() => {
       Notify.create({
@@ -45,7 +58,6 @@ const sendOrders = () => {
       });
     })
     .catch((error) => {
-
       alert(error);
     });
 };
@@ -53,7 +65,7 @@ const sendOrders = () => {
 const getApartment = async () => {
   try {
     const res = await api.get('/usuarios');
-    user.value = res.data;
+    cpf.value = res.data;
     // eslint-disable-next-line no-use-before-define
     validateData();
   } catch (error) {
@@ -64,7 +76,7 @@ const getApartment = async () => {
 };
 
 const validateData = () => {
-  const apartmentsFound = user.value
+  const apartmentsFound = cpf.value
     // eslint-disable-next-line no-shadow
     .flatMap((user) => user.apartamentos)
     .flat();
@@ -78,11 +90,12 @@ onMounted(() => {
 export default {
   setup() {
     return {
-      productDescription,
-      apartment,
-      recipient,
-      receiptDate,
-      user,
+      cpf,
+      destinatario,
+      recebedor,
+      coletor,
+      dataRecebimento,
+      dataRetirada,
       getApartment,
     };
   },
