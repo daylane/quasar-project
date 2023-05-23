@@ -1,26 +1,31 @@
 <template>
   <div>
     <q-tabs v-model="activeTab">
-      <q-tab name="section1">Encomenda</q-tab>
-      <q-tab name="section2">Historico</q-tab>
+      <q-tab name="pendenciaEncomenda">Encomenda</q-tab>
+      <q-tab name="historicoEncomenda">Historico</q-tab>
     </q-tabs>
 
     <q-tab-panels v-model="activeTab">
-      <q-tab-panel name="section2">
-        <h2>Seção 1</h2>
-
+      <q-tab-panel name="historicoEncomenda">
+        <h2>Histórico de Encomendas</h2>
+        <q-table
+          title="Historico de Encomendas"
+          :rows="rowsHistorico"
+          :columns="columns"
+          row-key="id"
+          no-data-label="Não tem registro encomedas!"
+        />
       </q-tab-panel>
 
-      <q-tab-panel name="section1">
-        <h2>Seção 2</h2>
+      <q-tab-panel name="pendenciaEncomenda">
+        <h2>Retirar Encomendas</h2>
         <q-table
-          :rows="tableData"
-          :columns="tableColumns"
+          title="Pêndencia de Encomendas"
+          :rows="rowsPendencia"
+          :columns="columns"
           row-key="id"
-
-        >
-
-        </q-table>
+          no-data-label="Não tem novas encomedas!"
+        />
       </q-tab-panel>
     </q-tab-panels>
   </div>
@@ -28,52 +33,86 @@
 
 <script>
 import axios from 'axios';
+import { computed } from 'vue';
 
 export default {
   name: 'MyComponent',
   data() {
     return {
-      activeTab: 'section1',
-      tableData: [{
-        name: 'Frozen Yogurt',
-
-      }],
-      tableColumns: [
+      activeTab: 'pendenciaEncomenda',
+      columns: [
         {
-          name: 'ID', required: true, align: 'left', field: 'id', sortable: true,
+          name: 'id',
+          label: 'Id',
+          align: 'left',
+          field: 'id',
+          sortable: true
         },
         {
-          name: 'Name', align: 'left', field: 'name', sortable: true,
+          name: 'cpf',
+          label: 'CPF',
+          align: 'left',
+          field: 'cpf'
         },
         {
-          name: 'destinatario', align: 'left', field: 'destinatario', sortable: true,
+          name: 'destinatario',
+          label: 'Destinatario',
+          align: 'left',
+          field: 'destinatario'
         },
         {
-          name: 'coletor', align: 'left', field: 'coletor', sortable: true,
+          name: 'coletor',
+          label: 'Coletor',
+          align: 'left',
+          field: 'coletor'
         },
         {
-          name: 'data_de_recebimento', align: 'left', field: 'data_de_recebimento', sortable: true,
+          name: 'recebedor',
+          label: 'Recebedor',
+          align: 'left',
+          field: 'recebedor'
         },
-        { name: 'Actions', align: 'center', field: 'actions' },
+        {
+          name: 'data_recebimento',
+          label: 'Data de Recebimento',
+          align: 'left',
+          field: 'data_recebimento',
+        },
+        {
+          name: 'data_retirada',
+          label: 'Data de Retirada',
+          align: 'left',
+          field: 'data_retirada'
+        }
       ],
+      rowsPendencia: [],
+      rowsHistorico: []
     };
   },
+
   mounted() {
-    this.fetchData();
+    const chaveAcesso = computed(() => JSON.parse(localStorage.getItem('usuario')));
+    this.fecthData(chaveAcesso.value.codigo_acesso);
   },
   methods: {
-    fetchData() {
-      axios.get('http://localhost:3000/AP12345')
+    fecthData(codigo) {
+      axios.get('http://localhost:3000/encomendas', { params: { destinatario: codigo } })
         .then((response) => {
-          this.tableData = response.data;
-        })
-        .catch((error) => {
-          console.error('Erro ao buscar dados:', error);
+          this.rowsPendencia = response.data.filter((data) => data.data_retirada === '');
+          this.rowsHistorico = response.data.filter((data) => data.data_retirada !== '');
+        }).catch((err) => {
+          console.log(err);
         });
-    },
-    editRow(row) {
-      console.log('Editar linha:', row);
     },
   },
 };
 </script>
+<!-- const formatDate = (date, subs = '/') => {
+  if (!date) return '';
+
+  const year = date.slice(0, 4);
+  const month = date.slice(4, 6);
+  const day = date.slice(6, 8);
+
+  return [day, month, year].join(subs);
+}; -->

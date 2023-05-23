@@ -13,15 +13,9 @@ const routes = [
     },
   },
   {
-    path: "/main",
-    component: () => import("layouts/MainLayout.vue"),
-    children: [
-      {
-        path: "/telaescolha",
-        name: "encomendas",
-        component: () => import("pages/TelaEscolha.vue"),
-      },
-    ],
+    path: "/encomendas",
+    name: "Encomendas",
+    component: () => import("pages/TelaEscolha.vue"),
   },
   {
     path: "/cadastrousuario",

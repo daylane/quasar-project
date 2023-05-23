@@ -1,38 +1,63 @@
 {
   "apartamentos":[
-    {"id":1, "numero":"1234AB", "cpf_inquilino":"08559264574"}
+    {
+    "id":1, 
+    "identificacao":"123AB", 
+    "cpf":"12345678978"
+  }
   ],
-"AP12345": [
-
-    { "id": 1,
-    "name": "CaixaKabum",
-    "destinatario": "AP12345",
-    "coletor":"João da Silva",
-    "data_de_recebimento": "2023-00-00",
-    "retirado":true
+  "usuarios":[{
+    "id":1,
+    "cpf":"12345678978",
+    "codigo_acesso": "123AB",
+    "nome": "Daylane",
+    "tipo": "inquilino"
+  },
+  {
+    "id":2,
+    "cpf":"98765432112",
+    "codigo_acesso": "321AB",
+    "nome": "Gilson",
+    "tipo": "inquilino"
+  }
+  ],
+  "encomendas":[
+    {
+      "id": 1,
+      "cpf" : "12345678978",
+      "destinatario": "123AB",
+      "coletor": "felipe",
+      "recebedor": "daylane",
+      "data_recebimento": "2023-05-23",
+      "data_retirada": "2023-05-23"
     },
-    { "id": 2,
-    "name": "CaixaPichau",
-    "destinatario": "43123",
-    "coletor":"felipe",
-    "data_de_recebimento": "2023-00-00",
-    "retirado":true
+    {
+      "id": 2,
+      "cpf" : "98765432112",
+      "destinatario": "321AB",
+      "coletor": "zé",
+      "recebedor": "gilson",
+      "data_recebimento": "2023-05-23",
+      "data_retirada": "2023-05-23"
     },
-    { "id": 3,
-    "name": "CaixaKabum",
-    "destinatario": "412412",
-    "coletor":"Paulo",
-    "data_de_recebimento": "2023-00-00",
-    "retirado":true
-  }],
-  "AP2222A": [
-
-    { "id": 1,
-    "name": "CaixaKabum",
-    "destinatario": "AP12345",
-    "coletor":"João da Silva",
-    "data_de_recebimento": "2023-00-00",
-    "retirado":true
+    {
+      "id": 3,
+      "cpf" : "154545454",
+      "destinatario": "123AB",
+      "coletor": "PEDRINHO",
+      "recebedor": "pedrao",
+      "data_recebimento": "2023-05-23",
+      "data_retirada": "2023-05-23"
+    },
+    {
+      "id": 4,
+      "cpf" : "154545454",
+      "destinatario": "123AB",
+      "coletor": "PEDRINHO",
+      "recebedor": "pedrao",
+      "data_recebimento": "2023-05-23",
+      "data_retirada": ""
     }
   ]
+
 }

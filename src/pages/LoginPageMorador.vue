@@ -1,34 +1,81 @@
-<!-- eslint-disable no-unused-vars -->
+<!-- eslint-disable no-shadow, no-use-before-defined, no-unused-vars -->
 <template>
   <div class="container">
     <div class="content">
       <img class="logo" src="../assets/logo-app.svg" />
       <div class="header">
-        <h2 style="color: #cb4335">LOGIN</h2>
-        <p style="color: #cb4335">Bem-vindo tela de Login</p>
+        <h3 style="color: #000000">LOGIN</h3>
+        <p style="color: #000000">Encontre o seu pacote aqui</p>
       </div>
-      <q-form class="form">
+      <q-form class="form" @submit="handleSubmit">
         <div class="mt-3">
-          <q-label style="color: #cb4335"> CPF </q-label>
-          <q-input v-model="cpf" label="Insira o CPF" lazy-rules:
-            rules="[ (val) => (val && val.length >0) || 'O Campo obrigatório']" />
+          <label style="color: #000000">CPF</label>
+          <q-input v-model="cpf" type="number" color="black">
+          <template>
+              <q-icon class="fa-solid fa-user"/>
+          </template>
+          </q-input>
         </div>
         <div class="mt-3">
-          <q-label style="color: #cb4335">Nº APARTAMENTO</q-label>
-          <input type="number" class="input" />
+          <label style="color:#000000">Nº APARTAMENTO</label>
+          <q-input v-model="chaveAcesso" type="text" color="black">
+          <template>
+              <q-icon class="fa-sharp fa-solid fa-building"/>
+          </template>
+          </q-input>
         </div>
-        <q-btn color="secondary" label="Iniciar" class="button" />
+        <q-btn outline color="secondary" label="Iniciar" class="loginButton" type="submit"/>
+        <div v-if="error" class="text-negative q-mt-md">{{ error }}</div>
       </q-form>
     </div>
   </div>
 </template>
-<script setup>
+<script>
+import axios from 'axios';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+export default {
+  setup() {
+    const cpf = ref('');
+    const chaveAcesso = ref('');
+    const error = ref('');
+    const router = useRouter();
+
+    const handleSubmit = () => {
+      login(cpf.value, chaveAcesso.value);
+    };
+
+    const login = async (cpf, chaveAcesso) => {
+      try {
+        const response = await axios.get('http://localhost:3000/usuarios');
+        const usuarios = response.data;
+        const usuario = usuarios.find((u) => u.cpf === cpf && u.codigo_acesso === chaveAcesso);
+        if (usuario) {
+          localStorage.setItem('usuario', JSON.stringify(usuario));
+          router.push({ path: '/encomendas' });
+        } else {
+          error.value = 'Credenciais Inválidas';
+        }
+      } catch (error) {
+        error.value = 'Credenciais inválidas!';
+      }
+    };
+
+    return {
+      cpf,
+      chaveAcesso,
+      handleSubmit,
+      error,
+    };
+  },
+};
 </script>
 <style>
 .container {
-  height: 100vh;
+  height: auto;
   margin: auto;
-  padding: 1rem;
+  padding: 2rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -37,13 +84,12 @@
 }
 
 .logo {
-  width: 150px;
+  width: 120px;
   display: block;
   margin: 0 auto;
 }
 
 .content {
-  padding: 1rem;
   width: 40%;
 }
 
@@ -55,7 +101,7 @@
   width: 100%;
 }
 
-.button {
+.loginButton {
   width: 100%;
 }
 
