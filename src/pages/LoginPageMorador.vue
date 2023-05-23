@@ -43,7 +43,7 @@ export default {
     const router = useRouter();
 
     const handleSubmit = () => {
-      login(cpf.value, chaveAcesso.value);
+      login(cpf.value, chaveAcesso.value.toLocaleUpperCase());
     };
 
     const login = async (cpf, chaveAcesso) => {
