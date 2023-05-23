@@ -78,7 +78,7 @@ const getApartment = async () => {
 const validateData = () => {
   const apartmentsFound = cpf.value
     // eslint-disable-next-line no-shadow
-    .flatMap((user) => user.apartamentos)
+    .flatMap((cpf) => cpf.apartamentos)
     .flat();
   console.log(apartmentsFound);
 };
