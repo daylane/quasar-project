@@ -1,6 +1,7 @@
 /* eslint-disable quotes */
 import ErrorNotFound from "pages/ErrorNotFound.vue";
 import MainLayout from "layouts/MainLayout.vue";
+import Login from "pages/LoginPageMorador.vue";
 
 const routes = [
   {
@@ -30,7 +31,7 @@ const routes = [
   {
     path: "/",
     name: "Login Usuario",
-    component: () => import("src/pages/LoginPage.vue"),
+    component: Login,
   },
   // Always leave this as last one,
   // but you can also remove it
