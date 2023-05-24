@@ -1,16 +1,21 @@
 /* eslint-disable quotes */
 import ErrorNotFound from "pages/ErrorNotFound.vue";
 import MainLayout from "layouts/MainLayout.vue";
-import IndexPage from "../pages/IndexPage.vue";
 
 const routes = [
   {
     path: "/menu",
     component: MainLayout,
-    children: {
-      path: "menu",
-      component: IndexPage,
-    },
+    children: [
+      {
+        path: "inicial",
+        component: () => import("pages/Main.vue"),
+      },
+      {
+        path: "cadastroencomenda",
+        component: () => import("pages/cadastroEncomendas.vue"),
+      },
+    ],
   },
   {
     path: "/encomendas",
@@ -25,17 +30,7 @@ const routes = [
   {
     path: "/",
     name: "Login Usuario",
-    component: () => import("pages/LoginPageMorador.vue"),
-  },
-  {
-    path: "/encomendas",
-    name: "encomendas",
-    component: () => import("pages/encomendasRecebidas.vue"),
-  },
-  {
-    path: "/cadastroencomendas",
-    name: "Cadastro de encomendas",
-    component: () => import("pages/cadastroEncomendas.vue"),
+    component: () => import("src/pages/LoginPage.vue"),
   },
   // Always leave this as last one,
   // but you can also remove it

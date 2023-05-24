@@ -2,26 +2,26 @@
   <div class="q-pa-md">
     <h1>Cadastrar Encomendas</h1>
 
-    <q-from @submit="onSubmit" class="q-gutter-md q-mt-xl">
+    <q-form class="q-gutter-md q-mt-xl" onsubmit="handleSubmit">
+      <q-input
+      v-model="cpf"
+      label="CPF da Desinatario"
+      type="number"
+      :rules="[val => (!!val) || 'Campo obrigatório']"
+      />
+      <q-select v-model="destinatario" :options="apartamentos" label="Apartamento de Destino"
+      :rules="[val => (!!val) || 'Campo obrigatório']" behavior="menu"/>
 
-      <q-input filled v-model="cpf" label="CPF da Encomenda" lazy-rules :rules="[
-        (val) => val.trim() != '' || 'Campo obrigatório.'
-      ]" />
-      <q-input filled v-model="destinatario" label="Apartamento de Destino" lazy-rules :rules="[
-        (val) => val.trim() != '' || 'Campo obrigatório.'
-      ]" />
+      <q-input v-model="coletor" label="Quem está recebendo?" type="text"
+      :rules="[val => (!!val) || 'Campo obrigatório']"/>
 
-      <q-input filled v-model="recebedor" label="Quem está recebendo?" />
+      <q-input v-model="recebedor" label="Quem irá recebeber?" type="text"
+      :rules="[val => (!!val) || 'Campo obrigatório']"/>
 
-      <q-input filled v-model="coletor" label="Quem irá recebeber?" />
+      <q-input v-model="dataRecebimento" label="Data de recebimento" type="text"
+      :rules="[val => (!!val) || 'Campo obrigatório']"/>
 
-      <q-input filled v-model="dataRecebimento" label="Data de recebimento" lazy-rules :rules="[
-        (val) => val.trim() != '' || 'Campo obrigatório.'
-      ]" />
-
-      <q-input filled v-model="dataRetirada" label="Data de retirada" />
-
-    </q-from>
+    </q-form>
 
     <div class="flex flex-center q-mt">
       <q-btn type="submit" color="primary" label="Cadastrar" />
@@ -29,75 +29,94 @@
   </div>
 </template>
 
-<script >
-import { Notify, alert } from 'quasar';
-import { ref, onMounted } from 'vue';
-import { api } from 'src/boot/axios';
+<!-- <script >
+// const validateData = () => {
+//   const apartmentsFound = cpf.value
+//     // eslint-disable-next-line no-shadow
+//     .flatMap((cpf) => cpf.apartamentos)
+//     .flat();
+//   console.log(apartmentsFound);
+// };
 
-const cpf = ref('');
-const destinatario = ref('');
-const recebedor = ref('');
-const coletor = ref('');
-const dataRecebimento = ref('');
-const dataRetirada = ref('');
-
-const sendOrders = () => {
-  api
-    .post('/encomendas', {
-      cpf: cpf.value,
-      destinatario: destinatario.value,
-      recebedor: recebedor.value,
-      coletor: coletor.value,
-      dataRecebimento: dataRecebimento.value,
-      dataRetirada: dataRetirada.value,
-    })
-    .then(() => {
-      Notify.create({
-        type: 'positive',
-        message: 'Cadastro Realizado',
-      });
-    })
-    .catch((error) => {
-      alert(error);
-    });
-};
-
-const getApartment = async () => {
-  try {
-    const res = await api.get('/usuarios');
-    cpf.value = res.data;
-    // eslint-disable-next-line no-use-before-define
-    validateData();
-  } catch (error) {
-    Notify.create({
-      type: 'negative',
-    });
-  }
-};
-
-const validateData = () => {
-  const apartmentsFound = cpf.value
-    // eslint-disable-next-line no-shadow
-    .flatMap((cpf) => cpf.apartamentos)
-    .flat();
-  console.log(apartmentsFound);
-};
-
-onMounted(() => {
-  sendOrders();
+export default defineComponent({
+  name: 'CadastroEncomendas',
+  // setup() {
+  //   return {
+  //     // cpf,
+  //     // destinatario,
+  //     // recebedor,
+  //     // coletor,
+  //     // dataRecebimento,
+  //     // dataRetirada,
+  //     // getApartment,
+  //   };
+  // },
 });
+</script> -->
+<script>
+import axios from 'axios';
+import { Notify } from 'quasar';
+import { defineComponent, onMounted, ref } from 'vue';
 
-export default {
+export default defineComponent({
+  name: 'CadastroEncomenda',
+
   setup() {
+    const cpf = ref('');
+    const destinatario = ref('');
+    const recebedor = ref('');
+    const coletor = ref('');
+    const dataRecebimento = ref('');
+    const apartamentos = ref([]);
+
+    const getApartment = async () => {
+      try {
+        const res = await axios.get('http://localhost:3000/apartamentos');
+        const identificacao = res.data;
+        apartamentos.value = identificacao.map((item) => (item.identificacao));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    onMounted(() => {
+      getApartment();
+    });
+
+    const handleSubmit = async () => {
+      console.log('eu');
+      sendOrders();
+    };
+
+    const sendOrders = async () => {
+      await axios.post('http://localhost:3000/encomendas', {
+        cpf: cpf.value,
+        destinatario: destinatario.value,
+        recebedor: recebedor.value,
+        coletor: coletor.value,
+        dataRecebimento: dataRecebimento.value,
+        dataRetirada: '',
+      }).then(() => {
+        Notify.create({
+          type: 'positive',
+          message: 'Cadastro Realizado',
+        });
+      }).catch((error) => {
+        Notify.create({
+          type: 'negative',
+          message: error,
+        });
+      });
+    };
+
     return {
       cpf,
       destinatario,
       recebedor,
       coletor,
       dataRecebimento,
-      dataRetirada,
-      getApartment,
+      apartamentos,
+      handleSubmit,
     };
   },
-};
+});
 </script>
