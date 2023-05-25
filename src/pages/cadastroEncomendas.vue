@@ -43,7 +43,7 @@
 </script> -->
 <script>
 import axios from 'axios';
-import { Notify } from 'quasar';
+import { useQuasar } from 'quasar';
 import { defineComponent, onMounted, ref } from 'vue';
 
 export default defineComponent({
@@ -75,6 +75,8 @@ export default defineComponent({
       sendOrders();
     };
 
+    const $q = useQuasar();
+
     const sendOrders = async () => {
       try {
         const response = await axios.post('http://localhost:3000/encomendas', {
@@ -86,12 +88,12 @@ export default defineComponent({
           dataRetirada: '',
         });
         console.log(response);
-        Notify.create({
+        $q.notify({
           type: 'positive',
           message: 'Cadastro Realizado',
         });
       } catch (error) {
-        Notify.create({
+        $q.notify({
           type: 'negative',
           message: error,
         });

@@ -81,6 +81,42 @@
       "dataRecebimento": "2023-05-25",
       "dataRetirada": "",
       "id": 6
+    },
+    {
+      "cpf": "123",
+      "destinatario": "123AB",
+      "recebedor": "eu",
+      "coletor": "eu",
+      "dataRecebimento": "2023-05-25",
+      "dataRetirada": "",
+      "id": 7
+    },
+    {
+      "cpf": "123",
+      "destinatario": "123AB",
+      "recebedor": "w",
+      "coletor": "w",
+      "dataRecebimento": "2023-05-05",
+      "dataRetirada": "",
+      "id": 8
+    },
+    {
+      "cpf": "123",
+      "destinatario": "321AB",
+      "recebedor": "132",
+      "coletor": "123",
+      "dataRecebimento": "2023-05-23",
+      "dataRetirada": "",
+      "id": 9
+    },
+    {
+      "cpf": "123",
+      "destinatario": "123AB",
+      "recebedor": "w",
+      "coletor": "w",
+      "dataRecebimento": "2023-05-23",
+      "dataRetirada": "",
+      "id": 10
     }
   ]
 }
