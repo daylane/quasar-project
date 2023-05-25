@@ -16,7 +16,10 @@ const routes = [
         path: "cadastroencomenda",
         component: () => import("pages/cadastroEncomendas.vue"),
       },
-    ],
+      {
+        path: "cadastroapartamento",
+        component: () => import("pages/cadastroApartamento.vue"),
+      }],
   },
   {
     path: "/encomendas",
