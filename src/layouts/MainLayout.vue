@@ -1,13 +1,9 @@
 <template>
   <q-layout view="hHh LpR lFf">
-    <q-header
-    reveal
-    elevated
-    class="bg-grey-9 text-white"
-    >
+    <q-header reveal elevated class="bg-grey-9 text-white">
       <q-toolbar>
-        <q-btn dense flat round icon="menu" @click="toggleLeftDrawer"/>
-        <q-separator dark vertical inset/>
+        <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
+        <q-separator dark vertical inset />
 
         <q-toolbar-title>
           Menu
@@ -16,24 +12,17 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-    show-if-above
-    v-model="leftDrawerOpen"
-    side="left"
-    behavior="desktop"
-    overlay
-    elevated
-    :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
-    >
+    <q-drawer show-if-above v-model="leftDrawerOpen" side="left" behavior="desktop" overlay elevated
+      :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'">
       <q-list v-for="(linksList, index) in linksList" :key="index">
-        <q-item clickable v-ripple :href="linksList.path" >
-        <q-item-section avatar>
-          <q-icon :name="linksList.icon"/>
-        </q-item-section>
-        <q-item-section>
-          {{ linksList.title }}
-        </q-item-section>
-       </q-item>
+        <q-item clickable v-ripple :href="linksList.path">
+          <q-item-section avatar>
+            <q-icon :name="linksList.icon" />
+          </q-item-section>
+          <q-item-section>
+            {{ linksList.title }}
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
@@ -66,7 +55,13 @@ const linksList = [
     title: 'Consultar Encomendas',
     icon: 'manage_search',
     path: '#/menu/inicial'
+  },
+  {
+    title: 'Sair',
+    icon: 'logout',
+    path: '#/'
   }
+
 ];
 
 export default defineComponent({

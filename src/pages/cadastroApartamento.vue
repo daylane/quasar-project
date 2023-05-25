@@ -3,12 +3,13 @@
   <div class="container">
     <div class="content">
       <div class="hearder">
-        <h3> Cadastro de apartamentos</h3>
+        <h5> Cadastro de apartamentos</h5>
       </div>
       <q-form class="q-gutter-md-xl" @submit="handleSubmit">
         // eslint-disable-next-line max-len
-        <q-input v-model="identificação" type="String" :rules="[val => (!!val) || 'Campo Obrigatório']" />
-        <q-input v-model="cpf" type="number" :rules="[val => (!!val) || 'Campo Obrigatório']" />
+        <q-input v-model="identificação" label="Numero do Apartamento" type="String"
+          :rules="[val => (!!val) || 'Campo Obrigatório']" />
+        <q-input v-model="cpf" label="CPF" type="number" :rules="[val => (!!val) || 'Campo Obrigatório']" />
         <div class="flex flex-center q-mt">
           <q-btn type="submit" color="primary" label="Cadastrar" />
         </div>

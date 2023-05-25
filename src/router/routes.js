@@ -22,7 +22,7 @@ const routes = [
       },
       {
         path: "admUsuario",
-        component: () => import("pages/AdmUsuarios.vue"),
+        component: () => import("pages/AdmUsuario.vue"),
       },
     ],
   },

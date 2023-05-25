@@ -1,5 +1,17 @@
+<!-- eslint-disable max-len -->
 <template>
   <div>
+    <q-header reveal elevated class="bg-grey-9 text-white">
+      <q-toolbar>
+        <q-btn dense flat round icon="logout" @click="handleSubmit" />
+        <q-separator dark vertical inset />
+
+        <q-toolbar-title>
+          Encomendas
+        </q-toolbar-title>
+
+      </q-toolbar>
+    </q-header>
     <q-tabs v-model="activeTab">
       <q-tab name="pendenciaEncomenda">Encomenda</q-tab>
       <q-tab name="historicoEncomenda">Historico</q-tab>
@@ -8,24 +20,15 @@
     <q-tab-panels v-model="activeTab">
       <q-tab-panel name="historicoEncomenda">
         <h2>Histórico de Encomendas</h2>
-        <q-table
-          title="Historico de Encomendas"
-          :rows="rowsHistorico"
-          :columns="columns"
-          row-key="id"
-          no-data-label="Não tem registro encomedas!"
-        />
+        <q-table title="Historico de Encomendas" :rows="rowsHistorico" :columns="columns" row-key="id"
+          no-data-label="Não tem registro encomedas!" />
       </q-tab-panel>
 
       <q-tab-panel name="pendenciaEncomenda">
         <h2>Retirar Encomendas</h2>
-        <q-table
-          title="Pêndencia de Encomendas"
-          :rows="rowsPendencia"
-          :columns="columns"
-          row-key="id"
-          no-data-label="Não tem novas encomedas!"
-        />
+        // eslint-disable-next-line max-len
+        <q-table title="Pêndencia de Encomendas" :rows="rowsPendencia" :columns="columns" row-key="id"
+          no-data-label="Não tem novas encomedas!" />
       </q-tab-panel>
     </q-tab-panels>
   </div>
@@ -33,6 +36,7 @@
 
 <script>
 import axios from 'axios';
+import router from 'src/router';
 import { computed } from 'vue';
 
 export default {
@@ -104,6 +108,15 @@ export default {
           console.log(err);
         });
     },
+  },
+  setup() {
+    const handleSubmit = () => {
+      router.push()({ path: '/' });
+    };
+
+    return {
+      handleSubmit,
+    };
   },
 };
 </script>
