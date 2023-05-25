@@ -48,14 +48,19 @@ import { defineComponent, ref } from 'vue';
 
 const linksList = [
   {
-    title: 'Cadastrar Usuarios',
+    title: 'Administrar Usuarios',
     icon: 'person_add',
-    path: '#/menu/inicial',
+    path: '#/menu/admUsuario',
   },
   {
     title: 'Cadastrar Encomendas',
     icon: 'new_label',
     path: '#/menu/cadastroencomenda',
+  },
+  {
+    title: 'Cadastrar Apartamentos',
+    icon: 'domain_add',
+    path: '#/menu/cadastroapartamento'
   },
   {
     title: 'Consultar Encomendas',

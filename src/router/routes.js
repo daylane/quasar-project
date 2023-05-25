@@ -10,7 +10,7 @@ const routes = [
     children: [
       {
         path: "inicial",
-        component: () => import("pages/Main.vue"),
+        component: () => import("pages/BuscarPage.vue"),
       },
       {
         path: "cadastroencomenda",
@@ -19,7 +19,12 @@ const routes = [
       {
         path: "cadastroapartamento",
         component: () => import("pages/cadastroApartamento.vue"),
-      }],
+      },
+      {
+        path: "admUsuario",
+        component: () => import("pages/AdmUsuarios.vue"),
+      },
+    ],
   },
   {
     path: "/encomendas",

@@ -21,7 +21,7 @@
 import axios from 'axios';
 import { useQuasar } from 'quasar';
 // eslint-disable-next-line no-unused-vars
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   name: 'CadastroApartamentos',
