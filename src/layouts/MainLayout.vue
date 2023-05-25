@@ -1,40 +1,39 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="hHh LpR lFf">
+    <q-header
+    reveal
+    elevated
+    class="bg-grey-9 text-white"
+    >
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+        <q-btn dense flat round icon="menu" @click="toggleLeftDrawer"/>
+        <q-separator dark vertical inset/>
 
         <q-toolbar-title>
-          Quasar App
+          Menu
         </q-toolbar-title>
 
       </q-toolbar>
     </q-header>
 
     <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
+    show-if-above
+    v-model="leftDrawerOpen"
+    side="left"
+    behavior="desktop"
+    overlay
+    elevated
+    :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
     >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Menu
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
+      <q-list v-for="(linksList, index) in linksList" :key="index">
+        <q-item clickable v-ripple :href="linksList.path" >
+        <q-item-section avatar>
+          <q-icon :name="linksList.icon"/>
+        </q-item-section>
+        <q-item-section>
+          {{ linksList.title }}
+        </q-item-section>
+       </q-item>
       </q-list>
     </q-drawer>
 
@@ -46,29 +45,34 @@
 
 <script>
 import { defineComponent, ref } from 'vue';
-import EssentialLink from 'components/EssentialLink.vue';
 
 const linksList = [
   {
-    title: 'Menu Inicial',
-    icon: 'school',
-    link: 'https://quasar.dev',
+    title: 'Cadastrar Usuarios',
+    icon: 'person_add',
+    path: '#/menu/inicial',
   },
+  {
+    title: 'Cadastrar Encomendas',
+    icon: 'new_label',
+    path: '#/menu/cadastroencomenda',
+  },
+  {
+    title: 'Consultar Encomendas',
+    icon: 'manage_search',
+    path: '#/menu/inicial'
+  }
 ];
 
 export default defineComponent({
   name: 'MainLayout',
 
-  components: {
-    EssentialLink,
-  },
-
   setup() {
     const leftDrawerOpen = ref(false);
 
     return {
-      essentialLinks: linksList,
       leftDrawerOpen,
+      linksList,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },

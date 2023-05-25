@@ -51,9 +51,14 @@ export default {
         const response = await axios.get('http://localhost:3000/usuarios');
         const usuarios = response.data;
         const usuario = usuarios.find((u) => u.cpf === cpf && u.codigo_acesso === chaveAcesso);
+        console.log(usuario);
         if (usuario) {
           localStorage.setItem('usuario', JSON.stringify(usuario));
-          router.push({ path: '/encomendas' });
+          if (usuario.tipo === 'inquilino') {
+            router.push({ path: '/encomendas' });
+          } else {
+            router.push({ path: '/menu' });
+          }
         } else {
           error.value = 'Credenciais Inválidas';
         }

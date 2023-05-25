@@ -1,35 +1,36 @@
 {
-  "apartamentos":[
-    {
-    "id":1, 
-    "identificacao":"123AB", 
-    "cpf":"321"
-    },
-    {
-    "id":2, 
-    "identificacao":"321AB", 
-    "cpf":"123"
-    }
-  ],
-  "usuarios":[{
-    "id":1,
-    "cpf":"321",
-    "codigo_acesso": "123AB",
-    "nome": "Daylane",
-    "tipo": "inquilino"
-  },
-  {
-    "id":2,
-    "cpf":"123",
-    "codigo_acesso": "321AB",
-    "nome": "Gilson",
-    "tipo": "porteiro"
-  }
-  ],
-  "encomendas":[
+  "apartamentos": [
     {
       "id": 1,
-      "cpf" : "321",
+      "identificacao": "123AB",
+      "cpf": "321"
+    },
+    {
+      "id": 2,
+      "identificacao": "321AB",
+      "cpf": "123"
+    }
+  ],
+  "usuarios": [
+    {
+      "id": 1,
+      "cpf": "321",
+      "codigo_acesso": "123AB",
+      "nome": "Daylane",
+      "tipo": "inquilino"
+    },
+    {
+      "id": 2,
+      "cpf": "123",
+      "codigo_acesso": "321AB",
+      "nome": "Gilson",
+      "tipo": "porteiro"
+    }
+  ],
+  "encomendas": [
+    {
+      "id": 1,
+      "cpf": "321",
       "destinatario": "123AB",
       "coletor": "felipe",
       "recebedor": "daylane",
@@ -38,7 +39,7 @@
     },
     {
       "id": 2,
-      "cpf" : "123",
+      "cpf": "123",
       "destinatario": "321AB",
       "coletor": "zé",
       "recebedor": "gilson",
@@ -47,7 +48,7 @@
     },
     {
       "id": 3,
-      "cpf" : "321",
+      "cpf": "321",
       "destinatario": "123AB",
       "coletor": "PEDRINHO",
       "recebedor": "pedrao",
@@ -56,13 +57,30 @@
     },
     {
       "id": 4,
-      "cpf" : "321",
+      "cpf": "321",
       "destinatario": "123AB",
       "coletor": "PEDRINHO",
       "recebedor": "pedrao",
       "data_recebimento": "2023-05-23",
       "data_retirada": ""
+    },
+    {
+      "cpf": "123",
+      "destinatario": "destinatario",
+      "recebedor": "recebedor",
+      "coletor": "coletor",
+      "dataRecebimento": "2023-05-23",
+      "dataRetirada": "",
+      "id": 5
+    },
+    {
+      "cpf": "123",
+      "destinatario": "123AB",
+      "recebedor": "eu",
+      "coletor": "eu",
+      "dataRecebimento": "2023-05-25",
+      "dataRetirada": "",
+      "id": 6
     }
   ]
-
 }

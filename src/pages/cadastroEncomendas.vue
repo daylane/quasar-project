@@ -1,8 +1,10 @@
 <template>
-  <div class="q-pa-md">
-    <h1>Cadastrar Encomendas</h1>
-
-    <q-form class="q-gutter-md q-mt-xl" onsubmit="handleSubmit">
+  <div class="container">
+    <div class="content">
+      <div class="header">
+        <h3>Cadastrar Encomendas</h3>
+      </div>
+      <q-form class="q-gutter-md q-mt-xl" @submit="handleSubmit">
       <q-input
       v-model="cpf"
       label="CPF da Desinatario"
@@ -18,13 +20,13 @@
       <q-input v-model="recebedor" label="Quem irá recebeber?" type="text"
       :rules="[val => (!!val) || 'Campo obrigatório']"/>
 
-      <q-input v-model="dataRecebimento" label="Data de recebimento" type="text"
+      <q-input v-model="dataRecebimento" label="Data de recebimento" type="date"
       :rules="[val => (!!val) || 'Campo obrigatório']"/>
 
-    </q-form>
-
-    <div class="flex flex-center q-mt">
+      <div class="flex flex-center q-mt">
       <q-btn type="submit" color="primary" label="Cadastrar" />
+      </div>
+    </q-form>
     </div>
   </div>
 </template>
@@ -38,20 +40,6 @@
 //   console.log(apartmentsFound);
 // };
 
-export default defineComponent({
-  name: 'CadastroEncomendas',
-  // setup() {
-  //   return {
-  //     // cpf,
-  //     // destinatario,
-  //     // recebedor,
-  //     // coletor,
-  //     // dataRecebimento,
-  //     // dataRetirada,
-  //     // getApartment,
-  //   };
-  // },
-});
 </script> -->
 <script>
 import axios from 'axios';
@@ -78,34 +66,36 @@ export default defineComponent({
         console.log(error);
       }
     };
+
     onMounted(() => {
       getApartment();
     });
 
-    const handleSubmit = async () => {
-      console.log('eu');
+    const handleSubmit = () => {
       sendOrders();
     };
 
     const sendOrders = async () => {
-      await axios.post('http://localhost:3000/encomendas', {
-        cpf: cpf.value,
-        destinatario: destinatario.value,
-        recebedor: recebedor.value,
-        coletor: coletor.value,
-        dataRecebimento: dataRecebimento.value,
-        dataRetirada: '',
-      }).then(() => {
+      try {
+        const response = await axios.post('http://localhost:3000/encomendas', {
+          cpf: cpf.value,
+          destinatario: destinatario.value,
+          recebedor: recebedor.value,
+          coletor: coletor.value,
+          dataRecebimento: dataRecebimento.value,
+          dataRetirada: '',
+        });
+        console.log(response);
         Notify.create({
           type: 'positive',
           message: 'Cadastro Realizado',
         });
-      }).catch((error) => {
+      } catch (error) {
         Notify.create({
           type: 'negative',
           message: error,
         });
-      });
+      }
     };
 
     return {
@@ -120,3 +110,22 @@ export default defineComponent({
   },
 });
 </script>
+<style>
+.container {
+  height: auto;
+  margin: auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.content {
+  width: 40%;
+}
+.header {
+  margin: 0 auto;
+  text-align: center;
+}
+</style>
