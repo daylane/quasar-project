@@ -27,7 +27,7 @@
           </template>
           </q-input>
         </div>
-        <q-btn push rounded color="secondary" class="loginButton" type="submit" label="Iniciar"/>
+        <q-btn push rounded color="secondary" class="loginButao" type="submit" label="Iniciar"/>
         <div v-if="error" class="text-negative q-mt-md">{{ error }}</div>
       </q-form>
     </div>
@@ -149,7 +149,7 @@ template{
   width: 100%;
 }
 
-.loginButton {
+.loginButao {
   width: 100%;
   font-weight: bold;
 }
@@ -159,7 +159,6 @@ template{
   position: relative;
   align-items: center;
   padding: 70px 0px 0px 0px;
-  z-index: 1;
   flex-wrap: wrap;
   flex-direction: column;
 }

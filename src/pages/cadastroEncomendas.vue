@@ -2,29 +2,40 @@
   <div class="containerEncomendas">
     <div class="contentEncomendas">
       <div class="headerEncomendas">
-        <h3>Cadastrar Encomendas</h3>
+        <img src="../assets/boxIcon.png">
+        <h4 class="title">Cadastrar Encomendas</h4>
       </div>
       <q-form class="q-gutter-md q-mt-xl" @submit="handleSubmit">
+      <q-select v-model="destinatario"
+      @update:model-value="handleChange"
+      :options="apartamentos"
+      color="black"
+      label="Apartamento de Destino"
+      :rules="[val => (!!val) || 'Campo obrigatório']" behavior="menu"/>
+
+      <q-input v-model="dataRecebimento" color="black"
+      label="Data de recebimento" type="date"
+      :rules="[val => (!!val) || 'Campo obrigatório']"/>
+
       <q-input
+      disable
+      readonly
       v-model="cpf"
       label="CPF da Desinatario"
       type="number"
       :rules="[val => (!!val) || 'Campo obrigatório']"
       />
-      <q-select v-model="destinatario" :options="apartamentos" label="Apartamento de Destino"
-      :rules="[val => (!!val) || 'Campo obrigatório']" behavior="menu"/>
 
-      <q-input v-model="coletor" label="Quem está recebendo?" type="text"
-      :rules="[val => (!!val) || 'Campo obrigatório']"/>
-
-      <q-input v-model="recebedor" label="Quem irá recebeber?" type="text"
-      :rules="[val => (!!val) || 'Campo obrigatório']"/>
-
-      <q-input v-model="dataRecebimento" label="Data de recebimento" type="date"
+      <q-input v-model="recebedor" label="Quem irá recebeber?"
+      disable
+      readonly
+      type="text"
       :rules="[val => (!!val) || 'Campo obrigatório']"/>
 
       <div class="flex flex-center q-mt">
-      <q-btn type="submit" color="primary" label="Cadastrar" />
+      <q-btn type="submit" push rounded color="secondary"
+      class="Cadastrarbutao"
+      label="Cadastrar" />
       </div>
     </q-form>
     </div>
@@ -32,18 +43,21 @@
 </template>
 
 <script>
+import {
+  computed,
+  defineComponent, onMounted, ref
+} from 'vue';
 import axios from 'axios';
 import { useQuasar } from 'quasar';
-import { defineComponent, onMounted, ref } from 'vue';
 
 export default defineComponent({
   name: 'CadastroEncomenda',
 
   setup() {
-    const cpf = ref('');
+    const cpf = ref([]);
     const destinatario = ref('');
-    const recebedor = ref('');
-    const coletor = ref('');
+    const nomeUsuario = computed(() => JSON.parse(localStorage.getItem('usuario')));
+    const recebedor = ref(nomeUsuario.value.nome);
     const dataRecebimento = ref('');
     const apartamentos = ref([]);
 
@@ -53,7 +67,22 @@ export default defineComponent({
         const identificacao = res.data;
         apartamentos.value = identificacao.map((item) => (item.identificacao));
       } catch (error) {
-        console.log(error);
+        $q.notify({
+          type: 'negative',
+          message: error,
+        });
+      }
+    };
+    const getCpf = async (id) => {
+      try {
+        const res = await axios.get('http://localhost:3000/apartamentos/', { params: { identificacao: id } });
+        const apCpf = res.data.map((item) => (item.cpf));
+        cpf.value = apCpf;
+      } catch (error) {
+        $q.notify({
+          type: 'negative',
+          message: error,
+        });
       }
     };
 
@@ -61,6 +90,9 @@ export default defineComponent({
       getApartment();
     });
 
+    const handleChange = () => {
+      getCpf(destinatario.value);
+    };
     const handleSubmit = () => {
       sendOrders();
     };
@@ -73,19 +105,21 @@ export default defineComponent({
           cpf: cpf.value,
           destinatario: destinatario.value,
           recebedor: recebedor.value,
-          coletor: coletor.value,
           dataRecebimento: dataRecebimento.value,
+          coletor: '',
           dataRetirada: '',
         });
         console.log(response);
         $q.notify({
           type: 'positive',
           message: 'Cadastro Realizado',
+          position: 'top',
         });
       } catch (error) {
         $q.notify({
           type: 'negative',
           message: error,
+          position: 'top',
         });
       }
     };
@@ -94,30 +128,50 @@ export default defineComponent({
       cpf,
       destinatario,
       recebedor,
-      coletor,
       dataRecebimento,
       apartamentos,
       handleSubmit,
+      handleChange,
     };
   },
 });
 </script>
 <style>
+
 .containerEncomendas {
-  height: auto;
+  min-height: 70vh;
   margin: auto;
-  padding: 2rem;
+  padding: 10px;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
   align-items: center;
   width: 100%;
+  font-family: 'Poppins', sans-serif;
 }
 .contentEncomendas {
-  width: 40%;
+  width: 600px;
+  overflow: hidden;
+  position: relative;
 }
 .headerEncomendas {
-  margin: 0 auto;
-  text-align: center;
+  width: 100%;
+  position: relative;
+  align-items: center;
+  padding: 0px 0px 0px 0px;
+  flex-wrap: wrap;
+  flex-direction: column;;
+}
+img{
+  width: 70px;
+  display: block;
+  padding: auto;
+}
+.q-form{
+  color: #000000;
+}
+.cadastrarButao{
+  width: 100%;
+  font-weight: bold;
 }
 </style>
