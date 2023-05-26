@@ -9,16 +9,21 @@
 
     <q-tab-panels v-model="activeTab">
       <q-tab-panel name="secao1">
-        <h2>Adicionar Usuario</h2>
-        <q-input v-model="cpf" label="CPF"></q-input>
-        <q-input v-model="codigoAcesso" label="Código de Acesso"></q-input>
-        <q-input v-model="nome" label="Nome"></q-input>
-        <q-input v-model="tipo" label="Tipo"></q-input>
-        <q-btn color="primary" label="Adicionar" @click="adicionarUsuario"></q-btn>
+        <div class="image-container">
+            <q-img class="cadastro-img" src="../assets/cadastro.png" fit="cover"></q-img>
+        </div>
+        <h5>Adicionar Usuario</h5>
+        <q-input   v-model="nome" label="Nome"></q-input>
+        <q-input   v-model="cpf" type="number" label="CPF"></q-input>
+        <q-input   v-model="codigoAcesso" label="Código de Acesso"></q-input>
+        <q-select  v-model="tipo"  :options="options" label="Tipo" > </q-select>
+        <q-btn class="botao" color="primary" label="Adicionar" @click="adicionarUsuario">
+          <q-icon name="check"/>
+        </q-btn>
       </q-tab-panel>
 
       <q-tab-panel name="secao2">
-        <h2>Excluir Inquilino</h2>
+        <h5>Excluir Usuario</h5>
         <q-select
           v-model="usuarioSelecionado"
           :options="usuarios"
@@ -26,24 +31,25 @@
           option-label="nome"
           label="Selecione um usuário"
         ></q-select>
-        <q-btn color="primary" label="Excluir" @click="excluirUsuario" :disable="!usuarioSelecionado"></q-btn>
+        <q-btn class="botao" color="negative" label="Excluir" @click="excluirUsuario" :disable="!usuarioSelecionado"></q-btn>
+
       </q-tab-panel>
 
-      <q-tab-panel name="secao3">
-        <h2>Editar Inquilino</h2>
-        <q-select
-          v-model="usuarioSelecionado"
-          :options="usuarios"
-          option-value="nome"
-          option-label="nome"
-          label="Selecione um usuário"
-        ></q-select>
-        <q-input v-model="novoNome" label="Novo Nome"></q-input>
-        <q-input v-model="novoTipo" label="Novo Tipo"></q-input>
-        <q-input v-model="novoCpf" label="Cpf"></q-input>
-        <q-input v-model="novoAcesso" label="Novo Acesso"></q-input>
-        <q-btn color="primary" label="Editar" @click="editarUsuario" :disable="!usuarioSelecionado"></q-btn>
-      </q-tab-panel>
+          <q-tab-panel name="secao3">
+      <h5>Editar Usuario</h5>
+      <q-select
+        v-model="usuarioSelecionado"
+        :options="usuarios"
+        option-value="nome"
+        option-label="nome"
+        label="Selecione um usuário"
+      ></q-select>
+      <q-input v-model="novoNome" label="Novo Nome"></q-input>
+      <q-input v-model="novoCpf" label="Novo CPF"></q-input>
+      <q-input v-model="novoAcesso" label="Novo Acesso"></q-input>
+      <q-select v-model="novoTipo" :options="options" label="Tipo"></q-select>
+      <q-btn class="botao" color="primary" label="Editar" @click="editarUsuario" :disable="!usuarioSelecionado"></q-btn>
+    </q-tab-panel>
 
     </q-tab-panels>
   </div>
@@ -51,6 +57,7 @@
 
 <script>
 import axios from 'axios';
+import { ref } from 'vue';
 
 export default {
   data() {
@@ -66,6 +73,10 @@ export default {
       novoTipo: '',
       novoCpf: '',
       novoAcesso: '',
+      model: ref(null),
+      options: [
+        'inquilino', 'porteiro', 'sindico',
+      ]
     };
   },
   mounted() {
@@ -75,15 +86,15 @@ export default {
     async adicionarUsuario() {
       try {
         await axios.post('http://localhost:3000/usuarios', {
-          cpf: this.cpf,
-          codigoAcesso: this.codigoAcesso,
           nome: this.nome,
+          cpf: this.cpf,
+          codigo_acesso: this.codigoAcesso,
           tipo: this.tipo,
         });
         console.log('Usuário adicionado com sucesso!');
-        this.cpf = '';
-        this.codigoAcesso = '';
         this.nome = '';
+        this.cpf = '';
+        this.codigo_acesso = '';
         this.tipo = '';
         this.buscarUsuarios();
       } catch (error) {
@@ -118,23 +129,58 @@ export default {
       const userId = this.usuarioSelecionado.id;
 
       try {
-        await axios.put(`http://localhost:3000/usuarios/${userId}`, {
-          nome: this.novoNome,
-          tipo: this.novoTipo,
-          cpf: this.novoCpf,
-          codigoAacesso: this.novoAcesso,
-        });
+        const response = await axios.get(`http://localhost:3000/usuarios/${userId}`);
+        const userData = response.data;
+
+        const data = {
+          nome: this.novoNome || userData.nome,
+          cpf: this.novoCpf || userData.cpf,
+          codigo_acesso: this.novoAcesso || userData.codigo_acesso,
+          tipo: this.novoTipo || userData.tipo,
+        };
+
+        await axios.put(`http://localhost:3000/usuarios/${userId}`, data);
         console.log('Usuário editado com sucesso!');
         this.buscarUsuarios();
         this.usuarioSelecionado = null;
+        this.novoNome = '';
         this.novoCpf = '';
         this.novoAcesso = '';
-        this.novoNome = '';
         this.novoTipo = '';
       } catch (error) {
         console.error('Erro ao editar usuário:', error);
       }
     },
-  },
+  }
 };
 </script>
+<style>
+h5 {
+    margin: 5px;
+
+}
+.botao{
+margin: 10px;
+
+}
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 200px;
+}
+
+.cadastro-img {
+  max-width: 160px;
+  max-height: 80%;
+  height: auto;
+}
+</style>
