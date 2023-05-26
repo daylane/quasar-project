@@ -2,29 +2,32 @@
 <template>
   <div class="container">
     <div class="content">
-      <img class="logo" src="../assets/logo-app.svg" />
       <div class="header">
-        <h3 style="color: #000000">LOGIN</h3>
-        <p style="color: #000000">Encontre o seu pacote aqui</p>
+        <img class="logo" src="../assets/iconLogin.png"/>
+        <h5 class="title">LOGIN</h5>
       </div>
       <q-form class="form" @submit="handleSubmit">
         <div class="mt-3">
           <label style="color: #000000">CPF</label>
-          <q-input v-model="cpf" type="number" color="black">
-          <template>
-              <q-icon class="fa-solid fa-user"/>
+          <q-input v-model="cpf" type="number" color="black"
+          :rules="[val => (!!val) || 'Campo obrigatório']"
+          >
+          <template v-slot:prepend>
+              <q-icon name="account_circle" color="black"/>
           </template>
           </q-input>
         </div>
         <div class="mt-3">
-          <label style="color:#000000">Nº APARTAMENTO</label>
-          <q-input v-model="chaveAcesso" type="text" color="black">
-          <template>
-              <q-icon class="fa-sharp fa-solid fa-building"/>
+          <label style="color:#000000">Chave de Acesso</label>
+          <q-input v-model="chaveAcesso" type="text" color="black"
+          :rules="[val => (!!val) || 'Campo obrigatório']"
+          >
+          <template v-slot:prepend>
+              <q-icon name="key" color="black"/>
           </template>
           </q-input>
         </div>
-        <q-btn outline color="secondary" label="Iniciar" class="loginButton" type="submit"/>
+        <q-btn push rounded color="secondary" class="loginButton" type="submit" label="Iniciar"/>
         <div v-if="error" class="text-negative q-mt-md">{{ error }}</div>
       </q-form>
     </div>
@@ -32,6 +35,7 @@
 </template>
 <script>
 import axios from 'axios';
+import { useQuasar } from 'quasar';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -41,6 +45,8 @@ export default {
     const chaveAcesso = ref('');
     const error = ref('');
     const router = useRouter();
+
+    const $q = useQuasar();
 
     const handleSubmit = () => {
       login(cpf.value, chaveAcesso.value.toLocaleUpperCase());
@@ -60,10 +66,18 @@ export default {
             router.push({ path: '/menu' });
           }
         } else {
-          error.value = 'Credenciais Inválidas';
+          $q.notify({
+            type: 'negative',
+            message: 'Credenciais Inválidas',
+            position: 'top',
+          });
         }
       } catch (error) {
-        error.value = 'Credenciais inválidas!';
+        $q.notify({
+          type: 'negative',
+          message: 'Credenciais Inválidas',
+          position: 'top',
+        });
       }
     };
 
@@ -77,29 +91,58 @@ export default {
 };
 </script>
 <style>
-.container {
+template{
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+body{
+  background-image: url(../assets/blue.svg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+  position: absolute;
   height: auto;
+}
+.container {
+  min-height: 100vh;
   margin: auto;
-  padding: 2rem;
+  padding: 5px;
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   width: 100%;
+  font-family: 'Poppins', sans-serif;
+}
+.title{
+  font-weight: bold;
+  font-size: 24px;
+  color: #000;
+  line-height: 1.2;
+  text-align: center;
 }
 
 .logo {
-  width: 120px;
   display: block;
   margin: 0 auto;
+  padding: auto;
 }
 
 .content {
-  width: 40%;
+  width: 500px;
+  overflow: hidden;
+  position: relative;
+
 }
 
 .form {
-  margin: auto;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 50px 100px 50px;
+
 }
 
 .input {
@@ -108,11 +151,18 @@ export default {
 
 .loginButton {
   width: 100%;
+  font-weight: bold;
 }
 
 .header {
-  margin: 0 auto;
-  text-align: center;
+  width: 100%;
+  position: relative;
+  align-items: center;
+  padding: 70px 15px 0px 15px;
+  z-index: 1;
+  flex-wrap: wrap;
+  flex-direction: column;
+
 }
 
 .mt-3 {

@@ -31,16 +31,6 @@
   </div>
 </template>
 
-<!-- <script >
-// const validateData = () => {
-//   const apartmentsFound = cpf.value
-//     // eslint-disable-next-line no-shadow
-//     .flatMap((cpf) => cpf.apartamentos)
-//     .flat();
-//   console.log(apartmentsFound);
-// };
-
-</script> -->
 <script>
 import axios from 'axios';
 import { useQuasar } from 'quasar';
