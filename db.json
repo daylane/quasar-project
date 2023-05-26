@@ -22,13 +22,13 @@
     {
       "nome": "Gilson Marcos",
       "tipo": "Inquilino",
-      "cpf": "",
-      "codigoAacesso": "Gilson@1234",
+      "cpf": "123",
+      "codigo_acesso": "Gilson@1234",
       "id": 3
     },
     {
       "cpf": "12345678901",
-      "codigoAcesso": "lipe14",
+      "codigo_acesso": "lipe14",
       "nome": "Felipe",
       "tipo": "Inquilino",
       "id": 4

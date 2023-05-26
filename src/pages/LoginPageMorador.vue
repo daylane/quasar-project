@@ -57,13 +57,13 @@ export default {
         const response = await axios.get('http://localhost:3000/usuarios');
         const usuarios = response.data;
         const usuario = usuarios.find((u) => u.cpf === cpf && u.codigo_acesso === chaveAcesso);
-        console.log(usuario);
+        console.log(usuarios.find((u) => u.cpf === cpf && u.codigo_acesso === chaveAcesso));
         if (usuario) {
           localStorage.setItem('usuario', JSON.stringify(usuario));
           if (usuario.tipo === 'inquilino') {
             router.push({ path: '/encomendas' });
           } else {
-            router.push({ path: '/menu' });
+            router.push({ path: '/menu/inicial' });
           }
         } else {
           $q.notify({
@@ -97,14 +97,7 @@ template{
   padding: 0px;
   box-sizing: border-box;
 }
-body{
-  background-image: url(../assets/blue.svg);
-  background-repeat: no-repeat;
-  background-size: 100%;
-  background-position: center;
-  position: absolute;
-  height: auto;
-}
+
 .container {
   min-height: 100vh;
   margin: auto;
@@ -115,6 +108,12 @@ body{
   align-items: center;
   width: 100%;
   font-family: 'Poppins', sans-serif;
+
+  background-image: url(../assets/Blue.svg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: top;
+  position: absolute;
 }
 .title{
   font-weight: bold;
