@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
-    <div class="content">
-      <div class="header">
+  <div class="containerEncomendas">
+    <div class="contentEncomendas">
+      <div class="headerEncomendas">
         <h3>Cadastrar Encomendas</h3>
       </div>
       <q-form class="q-gutter-md q-mt-xl" @submit="handleSubmit">
@@ -103,7 +103,7 @@ export default defineComponent({
 });
 </script>
 <style>
-.container {
+.containerEncomendas {
   height: auto;
   margin: auto;
   padding: 2rem;
@@ -113,10 +113,10 @@ export default defineComponent({
   align-items: center;
   width: 100%;
 }
-.content {
+.contentEncomendas {
   width: 40%;
 }
-.header {
+.headerEncomendas {
   margin: 0 auto;
   text-align: center;
 }

@@ -104,17 +104,17 @@ template{
   padding: 5px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   width: 100%;
   font-family: 'Poppins', sans-serif;
-
   background-image: url(../assets/Blue.svg);
   background-repeat: no-repeat;
   background-size: 100%;
   background-position: top;
-  position: absolute;
+  object-fit: cover;
 }
+
 .title{
   font-weight: bold;
   font-size: 24px;
@@ -127,6 +127,7 @@ template{
   display: block;
   margin: 0 auto;
   padding: auto;
+
 }
 
 .content {
@@ -157,11 +158,10 @@ template{
   width: 100%;
   position: relative;
   align-items: center;
-  padding: 70px 15px 0px 15px;
+  padding: 70px 0px 0px 0px;
   z-index: 1;
   flex-wrap: wrap;
   flex-direction: column;
-
 }
 
 .mt-3 {

@@ -1,8 +1,8 @@
 <!-- eslint-disable max-len -->
 <template>
-  <div class="container">
-    <div class="content">
-      <div class="hearder">
+  <div class="containerApartamentos">
+    <div class="contentApartamentos">
+      <div class="hearderApartamentos">
         <h5> Cadastro de apartamentos</h5>
       </div>
       <q-form class="q-gutter-md-xl" @submit="handleSubmit">
