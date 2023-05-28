@@ -1,7 +1,7 @@
 <!-- eslint-disable no-shadow, no-use-before-defined, no-unused-vars -->
 <template>
   <div class="container">
-    <div class="header">
+    <div class="headerAp">
       <img class="logo" src="../assets/iconLogin.png"/>
       <h5 class="title">LOGIN</h5>
     </div>
@@ -18,12 +18,12 @@
           </q-input>
         </div>
         <div class="mt-3">
-          <label style="color:#000000">Chave de Acesso</label>
+          <label style="color:#000000">Apartamento</label>
           <q-input v-model="chaveAcesso" type="text" color="black"
           :rules="[val => (!!val) || 'Campo obrigatório']"
           >
           <template v-slot:prepend>
-              <q-icon name="key" color="black"/>
+              <q-icon name="apartment" color="black"/>
           </template>
           </q-input>
         </div>
@@ -157,7 +157,7 @@ align-items: center;
   font-weight: bold;
 }
 
-.header {
+.headerAp {
   width: 100%;
   background-color: rgb(91, 166, 252);
   position: relative;

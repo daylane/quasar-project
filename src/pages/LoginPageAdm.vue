@@ -32,6 +32,9 @@
       </q-form>
     </div>
   </div>
+  <div class="back">
+   <q-btn push rounded color="blue" @click="redirecionar" label="Voltar"/>
+  </div>
 </template>
 <script>
 import axios from 'axios';
@@ -48,6 +51,9 @@ export default {
 
     const $q = useQuasar();
 
+    const redirecionar = () => {
+      router.push({ path: '/' });
+    };
     const handleSubmit = () => {
       login(cpf.value, chaveAcesso.value.toLocaleUpperCase());
     };
@@ -82,6 +88,7 @@ export default {
       chaveAcesso,
       handleSubmit,
       error,
+      redirecionar,
     };
   },
 };
@@ -144,6 +151,12 @@ template{
 .loginButao {
   width: 100%;
   font-weight: bold;
+}
+.back{
+display: flex;
+flex-wrap: wrap;
+justify-content: flex-end;
+align-items: flex-end;
 }
 
 .header {
