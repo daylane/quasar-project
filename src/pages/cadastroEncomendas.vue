@@ -108,6 +108,7 @@ export default defineComponent({
     const dataRecebimento = ref('');
     const apartamentos = ref([]);
     const filter = ref('');
+    const model = ref(null);
     const columns = [
       {
         name: 'id',
@@ -155,7 +156,6 @@ export default defineComponent({
     ];
     const rows = ref([]);
     const icon = ref(false);
-    const id = ref('');
     const coletor = ref('');
     const dataRetirada = ref('');
 
@@ -209,7 +209,7 @@ export default defineComponent({
 
     const handleClick = (props) => {
       icon.value = true;
-      id.value = props.row.id;
+      model.value = props.row;
       cpf.value = props.row.cpf;
       destinatario.value = props.row.destinatario;
       recebedor.value = props.row.recebedor;
@@ -219,7 +219,7 @@ export default defineComponent({
     const $q = useQuasar();
 
     const atualizarEncomendas = async () => {
-      const encomendaId = id.value;
+      const encomendaId = model.value.id;
       try {
         const data = {
           cpf: cpf.value,
@@ -228,7 +228,6 @@ export default defineComponent({
           coletor: coletor.value,
           dataRetirada: dataRetirada.value,
         };
-        console.log(id.value);
         await axios.put(`http://localhost:3000/encomendas/${encomendaId}`, data);
         buscarEncomendas();
         $q.notify({
@@ -246,8 +245,9 @@ export default defineComponent({
     };
     const sendOrders = async () => {
       try {
+        const cpfValue = cpf.value[0];
         await axios.post('http://localhost:3000/encomendas', {
-          cpf: cpf.value,
+          cpf: cpfValue,
           destinatario: destinatario.value,
           recebedor: recebedor.value,
           dataRecebimento: dataRecebimento.value,
@@ -276,6 +276,7 @@ export default defineComponent({
       dataRecebimento,
       apartamentos,
       coletor,
+      model,
       dataRetirada,
       atualizarEncomendas,
       handleSubmit,
@@ -346,5 +347,34 @@ img{
   max-width: 160px;
   max-height: 80%;
   height: auto;
+}
+.q-table__top {
+  background-color: #748086;
+  color: white;
+}
+
+.q-table__bottom {
+  background-color: #748086;
+  color: white;
+}
+
+.q-field__native {
+  color: white;
+}
+
+.table thead tr:first-child th {
+  background-color: #748086;
+}
+
+.table thead td {
+  background-color: #000000;
+}
+
+.table thead tr:firt-child th {
+  top: 0px;
+}
+
+.table th {
+  color: white;
 }
 </style>
