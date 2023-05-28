@@ -76,114 +76,91 @@
 <script>
 import axios from 'axios';
 import { useQuasar } from 'quasar';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 export default {
-  data() {
-    return {
-      activeTab: 'secao1',
-      cpf: '',
-      codigo_acesso: '',
-      nome: '',
-      tipo: '',
-      id: '',
-      usuarios: [],
-      usuarioSelecionado: null,
-      novoNome: '',
-      novoTipo: '',
-      novoCpf: '',
-      novoAcesso: '',
-      model: ref(null),
-      filter: ref(''),
-      columns: [
-        {
-          name: 'id',
-          label: 'Id',
-          align: 'left',
-          field: 'id',
-          sortable: true
-        },
-        {
-          name: 'nome',
-          label: 'Nome',
-          align: 'left',
-          field: 'nome'
-        },
-        {
-          name: 'cpf',
-          label: 'CPF',
-          align: 'left',
-          field: 'cpf'
-        },
-        {
-          name: 'codigo_acesso',
-          label: 'Apartamentos',
-          align: 'left',
-          field: 'codigo_acesso'
-        },
-        {
-          name: 'tipo',
-          label: 'Tipo',
-          align: 'left',
-          field: 'tipo'
-        },
-        {
-          name: 'editar',
-          label: 'Editar',
-          align: 'left',
-          field: 'editar'
-        },
-        {
-          name: 'excluir',
-          label: 'Excluir',
-          align: 'left',
-          field: 'excluir'
-        },
+  setup() {
+    const activeTab = ref('secao1');
+    const cpf = ref('');
+    // eslint-disable-next-line camelcase
+    const codigo_acesso = ref('');
+    const nome = ref('');
+    const id = ref('');
+    const usuarios = ref([]);
+    const usuarioSelecionado = ref(null);
+    const novoNome = ref('');
+    const novoTipo = ref('');
+    const novoCpf = ref('');
+    const novoAcesso = ref('');
+    const model = ref(null);
+    const filter = ref('');
+    const columns = [
+      {
+        name: 'id',
+        label: 'Id',
+        align: 'left',
+        field: 'id',
+        sortable: true
+      },
+      {
+        name: 'nome',
+        label: 'Nome',
+        align: 'left',
+        field: 'nome'
+      },
+      {
+        name: 'cpf',
+        label: 'CPF',
+        align: 'left',
+        field: 'cpf'
+      },
+      {
+        name: 'codigo_acesso',
+        label: 'Apartamentos',
+        align: 'left',
+        field: 'codigo_acesso'
+      },
+      {
+        name: 'tipo',
+        label: 'Tipo',
+        align: 'left',
+        field: 'tipo'
+      },
+      {
+        name: 'editar',
+        label: 'Editar',
+        align: 'left',
+        field: 'editar'
+      },
+      {
+        name: 'excluir',
+        label: 'Excluir',
+        align: 'left',
+        field: 'excluir'
+      }
+    ];
+    const rows = ref([]);
+    const icon = ref(false);
 
-      ],
-      rows: [],
-      icon: ref(false),
-    };
-  },
-  mounted() {
-    this.buscarUsuarios();
-  },
-  methods: {
-    async adicionarUsuario() {
+    const $q = useQuasar();
+
+    const adicionarUsuario = async () => {
       try {
         await axios.post('http://localhost:3000/usuarios', {
-          nome: this.nome,
-          cpf: this.cpf,
-          codigo_acesso: this.codigo_acesso.toLocaleUpperCase(),
-          tipo: 'inquilino',
+          nome: nome.value,
+          cpf: cpf.value,
+          // eslint-disable-next-line camelcase
+          codigo_acesso: codigo_acesso.value.toLocaleUpperCase(),
+          tipo: 'inquilino'
         });
-        console.log('Usuário adicionado com sucesso!');
-        this.nome = '';
-        this.cpf = '';
-        this.codigo_acesso = '';
-        this.buscarUsuarios();
-      } catch (error) {
-        console.error('Erro ao adicionar usuário:', error);
-      }
-    },
-    async buscarUsuarios() {
-      try {
-        const response = await axios.get('http://localhost:3000/usuarios');
-        this.usuarios = response.data;
-        this.rows = response.data.filter((data) => data.tipo === 'inquilino');
-      } catch (error) {
-        console.error('Erro ao buscar usuários:', error);
-      }
-    },
-    async excluirUsuario(props) {
-      const $q = useQuasar();
-      const userId = props.row.id;
-      try {
-        await axios.delete(`http://localhost:3000/usuarios/${userId}`);
-        this.buscarUsuarios();
+        nome.value = '';
+        cpf.value = '';
+        // eslint-disable-next-line camelcase
+        codigo_acesso.value = '';
+        buscarUsuarios();
         $q.notify({
           type: 'positive',
-          message: 'Usuário excluído com sucesso!',
+          message: 'Usuário adicionado com sucesso!',
           position: 'top',
         });
       } catch (error) {
@@ -193,32 +170,73 @@ export default {
           position: 'top',
         });
       }
-    },
-    handleClick(props) {
-      this.icon = true;
-      this.id = props.row.id;
-      this.novoNome = props.row.nome;
-      this.novoCpf = props.row.cpf;
-      this.novoAcesso = props.row.codigo_acesso;
-    },
-    async editarUsuario() {
-      const $q = useQuasar();
-      const userId = this.id;
+    };
+
+    const buscarUsuarios = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/usuarios');
+        usuarios.value = response.data;
+        rows.value = response.data;
+      } catch (error) {
+        $q.notify({
+          type: 'negative',
+          message: error,
+          position: 'top',
+        });
+      }
+    };
+
+    const excluirUsuario = async (props) => {
+      const userId = props.row.id;
+      try {
+        await axios.delete(`http://localhost:3000/usuarios/${userId}`);
+        buscarUsuarios();
+        $q.notify({
+          type: 'positive',
+          message: 'Usuario Excluido com Sucesso',
+          position: 'top',
+        });
+      } catch (error) {
+        $q.notify({
+          type: 'negative',
+          message: error,
+          position: 'top',
+        });
+      }
+    };
+
+    const handleClick = (props) => {
+      icon.value = true;
+      id.value = props.row.id;
+      novoNome.value = props.row.nome;
+      novoCpf.value = props.row.cpf;
+      novoAcesso.value = props.row.codigo_acesso;
+      novoTipo.value = props.row.tipo;
+    };
+
+    const editarUsuario = async () => {
+      const userId = id.value;
 
       try {
         const data = {
-          nome: this.novoNome,
-          cpf: this.novoCpf,
-          codigo_acesso: this.novoAcesso,
-          tipo: 'inquilino',
+          nome: novoNome.value,
+          cpf: novoCpf.value,
+          codigo_acesso: novoAcesso.value,
+          tipo: novoTipo.value
         };
 
         await axios.put(`http://localhost:3000/usuarios/${userId}`, data);
 
-        this.novoNome = '';
-        this.novoCpf = '';
-        this.novoAcesso = '';
-        this.buscarUsuarios();
+        novoNome.value = '';
+        novoCpf.value = '';
+        novoAcesso.value = '';
+        novoTipo.value = '';
+        buscarUsuarios();
+        $q.notify({
+          type: 'positive',
+          message: 'Usuario editado com sucesso',
+          position: 'top',
+        });
       } catch (error) {
         $q.notify({
           type: 'negative',
@@ -226,8 +244,38 @@ export default {
           position: 'top',
         });
       }
-    },
+    };
+
+    onMounted(() => {
+      buscarUsuarios();
+    });
+
+    return {
+      activeTab,
+      cpf,
+      // eslint-disable-next-line camelcase
+      codigo_acesso,
+      nome,
+      id,
+      usuarios,
+      usuarioSelecionado,
+      novoNome,
+      novoTipo,
+      novoCpf,
+      novoAcesso,
+      model,
+      filter,
+      columns,
+      rows,
+      icon,
+      adicionarUsuario,
+      buscarUsuarios,
+      excluirUsuario,
+      handleClick,
+      editarUsuario
+    };
   }
+
 };
 </script>
 <style>
