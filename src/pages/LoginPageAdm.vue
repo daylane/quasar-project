@@ -28,10 +28,6 @@
           </q-input>
         </div>
         <q-btn push rounded color="secondary" class="loginButao" type="submit" label="Iniciar"/>
-        <div v-if="error" class="text-negative q-mt-md">{{ error }}</div>
-        <div clas="inquilino">
-        <q-btn push rounded color="blue" @click="redirecionar" label="Inquilino"/>
-      </div>
       </q-form>
 
     </div>
