@@ -57,7 +57,6 @@ export default {
         const response = await axios.get('http://localhost:3000/usuarios');
         const usuarios = response.data;
         const usuario = usuarios.find((u) => u.cpf === cpf && u.codigo_acesso === chaveAcesso);
-        console.log(usuarios.find((u) => u.cpf === cpf && u.codigo_acesso === chaveAcesso));
         if (usuario) {
           localStorage.setItem('usuario', JSON.stringify(usuario));
           if (usuario.tipo === 'inquilino') {

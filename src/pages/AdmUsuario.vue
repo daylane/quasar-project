@@ -14,7 +14,7 @@
         <h5>Adicionar Usuario</h5>
         <q-input   v-model="nome" label="Nome"></q-input>
         <q-input   v-model="cpf" type="number" label="CPF"></q-input>
-        <q-input   v-model="codigoAcesso" label="Código de Acesso"></q-input>
+        <q-input   v-model="codigo_acesso" label="Código de Acesso"></q-input>
         <q-select  v-model="tipo"  :options="options" label="Tipo" > </q-select>
         <q-btn class="botao" color="primary" label="Adicionar" @click="adicionarUsuario">
           <q-icon name="check"/>
@@ -77,7 +77,6 @@
 
 <script>
 import axios from 'axios';
-import { useQuasar } from 'quasar';
 import { ref } from 'vue';
 
 export default {
@@ -85,7 +84,7 @@ export default {
     return {
       activeTab: 'secao1',
       cpf: '',
-      codigoAcesso: '',
+      codigo_acesso: '',
       nome: '',
       tipo: '',
       id: '',
@@ -159,7 +158,7 @@ export default {
         await axios.post('http://localhost:3000/usuarios', {
           nome: this.nome,
           cpf: this.cpf,
-          codigo_acesso: this.codigoAcesso.toLocaleUpperCase(),
+          codigo_acesso: this.codigo_acesso.toLocaleUpperCase(),
           tipo: this.tipo,
         });
         console.log('Usuário adicionado com sucesso!');
@@ -182,22 +181,12 @@ export default {
       }
     },
     async excluirUsuario(props) {
-      const $q = useQuasar();
       const userId = props.row.id;
       try {
         await axios.delete(`http://localhost:3000/usuarios/${userId}`);
         this.buscarUsuarios();
-        $q.notify({
-          type: 'positive',
-          message: 'Usuário excluído com sucesso!',
-          position: 'top',
-        });
       } catch (error) {
-        $q.notify({
-          type: 'negative',
-          message: error,
-          position: 'top',
-        });
+        console.log(error);
       }
     },
     handleClick(props) {
@@ -209,7 +198,6 @@ export default {
       this.novoTipo = props.row.tipo;
     },
     async editarUsuario() {
-      const $q = useQuasar();
       const userId = this.id;
 
       try {
@@ -226,12 +214,9 @@ export default {
         this.novoCpf = '';
         this.novoAcesso = '';
         this.novoTipo = '';
+        this.buscarUsuarios();
       } catch (error) {
-        $q.notify({
-          type: 'negative',
-          message: error,
-          position: 'top',
-        });
+        console.log(error);
       }
     },
   }

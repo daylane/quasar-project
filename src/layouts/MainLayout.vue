@@ -1,3 +1,4 @@
+<!-- eslint-disable no-const-assign -->
 <template>
   <q-layout view="hHh LpR lFf">
     <q-header reveal elevated class="bg-grey-9 text-white">
@@ -33,13 +34,15 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
+
+const acesso = computed(() => JSON.parse(localStorage.getItem('usuario')));
 
 const linksList = [
   {
-    title: 'Administrar Inquilinos',
+    title: 'Administrar Usuarios',
     icon: 'person_add',
-    path: '#/menu/admUsuario',
+    path: '#/menu/admUsuarioSindico',
   },
   {
     title: 'Cadastrar Encomendas',
@@ -60,9 +63,15 @@ const linksList = [
     title: 'Sair',
     icon: 'logout',
     path: '#/'
-  }
+  },
 
 ];
+if (acesso.value.tipo === 'porteiro') {
+  const index = linksList.findIndex((link) => link.path === '#/menu/admUsuarioSindico');
+  if (index !== -1) {
+    linksList[index].path = '#/menu/admUsuario';
+  }
+}
 
 export default defineComponent({
   name: 'MainLayout',
