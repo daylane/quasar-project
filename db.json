@@ -3,60 +3,51 @@
     {
       "id": 1,
       "identificacao": "123AB",
-      "cpf": "321"
+      "cpf": "65899085088"
     },
     {
       "id": 2,
       "identificacao": "321AB",
-      "cpf": "123"
-    },
-    {
-      "identificacao": "1111",
-      "cpf": "12223",
-      "id": 3
-    },
-    {
-      "identificacao": "145",
-      "cpf": "12111",
-      "id": 4
+      "cpf": "65899085088"
     }
+
   ],
   "usuarios": [
     {
-      "nome": "1day",
-      "cpf": "5555",
-      "codigo_acesso": "32",
+      "nome": "Daylane",
+      "cpf": "65899085088",
+      "codigo_acesso": "123AB",
       "tipo": "inquilino",
+      "id": 1
+    },
+    {
+      "nome": "Gilson",
+      "cpf": "12345678900",
+      "codigo_acesso": "444",
+      "tipo": "sindico",
       "id": 2
     },
     {
-      "nome": "1day",
-      "cpf": "444",
-      "codigo_acesso": "321AB",
-      "tipo": "sindico",
-      "id": 3
-    },
-    {
-      "nome": "ppp",
-      "cpf": "845",
+      "nome": "Felipe",
+      "cpf": "98765432101",
       "codigo_acesso": "56",
       "tipo": "porteiro",
-      "id": 6
+      "id": 3
     }
   ],
   "encomendas": [
     {
       "id": 1,
-      "cpf": "321",
+      "cpf": "65899085088",
       "destinatario": "123AB",
-      "coletor": "felipe",
+      "coletor": "Felipe",
       "recebedor": "daylane",
       "data_recebimento": "2023-05-23",
       "data_retirada": "2023-05-23"
     },
     {
       "id": 2,
-      "cpf": "123",
+      "cpf": "65899085088",
       "destinatario": "321AB",
       "coletor": "zé",
       "recebedor": "gilson",
@@ -75,88 +66,11 @@
     {
       "id": 4,
       "cpf": "321",
-      "destinatario": "123AB",
-      "coletor": "PEDRINHO",
+      "destinatario": "321AB",
+      "coletor": "",
       "recebedor": "pedrao",
       "data_recebimento": "2023-05-23",
       "data_retirada": ""
-    },
-    {
-      "cpf": "123",
-      "destinatario": "destinatario",
-      "recebedor": "recebedor",
-      "coletor": "coletor",
-      "dataRecebimento": "2023-05-23",
-      "dataRetirada": "",
-      "id": 5
-    },
-    {
-      "cpf": "123",
-      "destinatario": "123AB",
-      "recebedor": "eu",
-      "coletor": "eu",
-      "dataRecebimento": "2023-05-25",
-      "dataRetirada": "",
-      "id": 6
-    },
-    {
-      "cpf": "123",
-      "destinatario": "123AB",
-      "recebedor": "eu",
-      "coletor": "eu",
-      "dataRecebimento": "2023-05-25",
-      "dataRetirada": "",
-      "id": 7
-    },
-    {
-      "cpf": "123",
-      "destinatario": "123AB",
-      "recebedor": "w",
-      "coletor": "w",
-      "dataRecebimento": "2023-05-05",
-      "dataRetirada": "",
-      "id": 8
-    },
-    {
-      "cpf": "123",
-      "destinatario": "321AB",
-      "recebedor": "132",
-      "coletor": "123",
-      "dataRecebimento": "2023-05-23",
-      "dataRetirada": "",
-      "id": 9
-    },
-    {
-      "cpf": "123",
-      "destinatario": "123AB",
-      "recebedor": "w",
-      "coletor": "day",
-      "dataRetirada": "2023-05-12",
-      "id": 10
-    },
-    {
-      "cpf": "07633630574",
-      "destinatario": "321AB",
-      "recebedor": "Daylane",
-      "coletor": "ueu",
-      "dataRetirada": "2023-05-29",
-      "id": 11
-    },
-    {
-      "cpf": "123",
-      "destinatario": "321AB",
-      "recebedor": "ppp",
-      "coletor": "AAAAAAAAAA",
-      "dataRetirada": "2023-05-08",
-      "id": 12
-    },
-    {
-      "cpf": "123",
-      "destinatario": "321AB",
-      "recebedor": "ppp",
-      "coletor": "aabbbbbbbbb",
-      "dataRetirada": "2023-05-09",
-      "id": 13
     }
   ]
 }
