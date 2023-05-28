@@ -54,7 +54,8 @@ export default defineComponent({
   name: 'CadastroEncomenda',
 
   setup() {
-    const cpf = ref([]);
+    const cpf = ref('');
+    const cpfApi = ref('');
     const destinatario = ref('');
     const nomeUsuario = computed(() => JSON.parse(localStorage.getItem('usuario')));
     const recebedor = ref(nomeUsuario.value.nome);
@@ -77,7 +78,7 @@ export default defineComponent({
       try {
         const res = await axios.get('http://localhost:3000/apartamentos/', { params: { identificacao: id } });
         const apCpf = res.data.map((item) => (item.cpf));
-        cpf.value = apCpf;
+        cpfApi.value = apCpf;
       } catch (error) {
         $q.notify({
           type: 'negative',
@@ -102,7 +103,7 @@ export default defineComponent({
     const sendOrders = async () => {
       try {
         const response = await axios.post('http://localhost:3000/encomendas', {
-          cpf: cpf.value,
+          cpf: cpfApi.value,
           destinatario: destinatario.value,
           recebedor: recebedor.value,
           dataRecebimento: dataRecebimento.value,
@@ -129,6 +130,7 @@ export default defineComponent({
       destinatario,
       recebedor,
       dataRecebimento,
+      cpfApi,
       apartamentos,
       handleSubmit,
       handleChange,

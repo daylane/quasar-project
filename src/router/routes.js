@@ -21,8 +21,12 @@ const routes = [
         component: () => import("pages/cadastroApartamento.vue"),
       },
       {
-        path: "admUsuario",
+        path: "admUsuarioSindico",
         component: () => import("pages/AdmUsuario.vue"),
+      },
+      {
+        path: "admUsuario",
+        component: () => import("pages/cadastroUsuario.vue"),
       },
     ],
   },

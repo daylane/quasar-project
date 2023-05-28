@@ -26,7 +26,6 @@
 
       <q-tab-panel name="pendenciaEncomenda">
         <h2>Retirar Encomendas</h2>
-        // eslint-disable-next-line max-len
         <q-table title="Pêndencia de Encomendas" :rows="rowsPendencia" :columns="columns" row-key="id"
           no-data-label="Não tem novas encomedas!" />
       </q-tab-panel>
