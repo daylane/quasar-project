@@ -21,13 +21,32 @@
       <q-tab-panel name="historicoEncomenda">
         <h2>Histórico de Encomendas</h2>
         <q-table title="Historico de Encomendas" :rows="rowsHistorico" :columns="columns" row-key="id"
-          no-data-label="Não tem registro encomedas!" />
+          no-data-label="Não tem registro encomedas!" >
+
+          <template v-slot:top-right>
+            <q-input borderless dense debounce="300" v-model="filter" placeholder="Pesquisa">
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+          </template>
+
+        </q-table>
       </q-tab-panel>
 
       <q-tab-panel name="pendenciaEncomenda">
         <h2>Retirar Encomendas</h2>
         <q-table title="Pêndencia de Encomendas" :rows="rowsPendencia" :columns="columns" row-key="id"
-          no-data-label="Não tem novas encomedas!" />
+          no-data-label="Não tem novas encomedas!" >
+          <template v-slot:top-right>
+            <q-input borderless dense debounce="300" v-model="filter" placeholder="Pesquisa">
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+          </template>
+
+        </q-table>
       </q-tab-panel>
     </q-tab-panels>
   </div>
@@ -36,13 +55,14 @@
 <script>
 import axios from 'axios';
 import router from 'src/router';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 export default {
   name: 'MyComponent',
   data() {
     return {
       activeTab: 'pendenciaEncomenda',
+      filter: ref(''),
       columns: [
         {
           name: 'id',
@@ -86,7 +106,7 @@ export default {
           label: 'Data de Retirada',
           align: 'left',
           field: 'data_retirada'
-        }
+        },
       ],
       rowsPendencia: [],
       rowsHistorico: []
@@ -95,11 +115,11 @@ export default {
 
   mounted() {
     const chaveAcesso = computed(() => JSON.parse(localStorage.getItem('usuario')));
-    this.fecthData(chaveAcesso.value.codigo_acesso);
+    this.fecthData(chaveAcesso.value.identificacao);
   },
   methods: {
-    fecthData(codigo) {
-      axios.get('http://localhost:3000/encomendas', { params: { destinatario: codigo } })
+    fecthData(chaveAcesso) {
+      axios.get('http://localhost:3000/encomendas', { params: { destinatario: chaveAcesso } })
         .then((response) => {
           this.rowsPendencia = response.data.filter((data) => data.data_retirada === '');
           this.rowsHistorico = response.data.filter((data) => data.data_retirada !== '');
@@ -119,6 +139,37 @@ export default {
   },
 };
 </script>
+<style>
+.q-table__top {
+  background-color: #748086;
+  color: white;
+}
+
+.q-table__bottom {
+  background-color: #748086;
+  color: white;
+}
+
+.q-field__native {
+  color: white;
+}
+
+.table thead tr:first-child th {
+  background-color: #748086;
+}
+
+.table thead td {
+  background-color: #000000;
+}
+
+.table thead tr:firt-child th {
+  top: 0px;
+}
+
+.table th {
+  color: white;
+}
+</style>
 <!-- const formatDate = (date, subs = '/') => {
   if (!date) return '';
 
