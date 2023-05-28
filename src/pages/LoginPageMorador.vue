@@ -1,11 +1,11 @@
 <!-- eslint-disable no-shadow, no-use-before-defined, no-unused-vars -->
 <template>
   <div class="container">
+    <div class="header">
+      <img class="logo" src="../assets/iconLogin.png"/>
+      <h5 class="title">LOGIN</h5>
+    </div>
     <div class="content">
-      <div class="header">
-        <img class="logo" src="../assets/iconLogin.png"/>
-        <h5 class="title">LOGIN</h5>
-      </div>
       <q-form class="form" @submit="handleSubmit">
         <div class="mt-3">
           <label style="color: #000000">CPF</label>
@@ -30,9 +30,9 @@
         <q-btn push rounded color="secondary" class="loginButao" type="submit" label="Iniciar"/>
         <div v-if="error" class="text-negative q-mt-md">{{ error }}</div>
       </q-form>
-    <div class="admin">
-     <q-btn push rounded color="black" @click="redirecionar" label="Admin"/>
-    </div>
+      <div class="admin">
+   <q-btn push rounded color="black" @click="redirecionar" label="Admin"/>
+  </div>
     </div>
   </div>
 </template>
@@ -51,12 +51,12 @@ export default {
 
     const $q = useQuasar();
 
-    const handleSubmit = () => {
-      login(cpf.value, chaveAcesso.value.toLocaleUpperCase());
-    };
-
     const redirecionar = () => {
       router.push({ path: '/loginadm' });
+    };
+
+    const handleSubmit = () => {
+      login(cpf.value, chaveAcesso.value.toLocaleUpperCase());
     };
 
     const login = async (cpf, chaveAcesso) => {
@@ -102,20 +102,13 @@ template{
 }
 
 .container {
-  min-height: 100vh;
   margin: auto;
-  padding: 5px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
   width: 100%;
   font-family: 'Poppins', sans-serif;
-  background-image: url(../assets/Blue.svg);
-  background-repeat: no-repeat;
-  background-size: 100%;
-  background-position: top;
-  object-fit: cover;
 }
 
 .title{
@@ -134,10 +127,17 @@ template{
 }
 
 .content {
+  margin-top: 2rem;
   width: 500px;
   overflow: hidden;
   position: relative;
 
+}
+.admin{
+display: flex;
+flex-wrap: wrap;
+justify-content: flex-end;
+align-items: center;
 }
 
 .form {
@@ -157,16 +157,11 @@ template{
   font-weight: bold;
 }
 
-.admin{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  align-items: center;
-}
-
 .header {
   width: 100%;
+  background-color: rgb(91, 166, 252);
   position: relative;
+  border-radius: 0 0 50% 50%;
   align-items: center;
   padding: 70px 0px 0px 0px;
   flex-wrap: wrap;
