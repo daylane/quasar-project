@@ -30,6 +30,9 @@
         <q-btn push rounded color="secondary" class="loginButao" type="submit" label="Iniciar"/>
         <div v-if="error" class="text-negative q-mt-md">{{ error }}</div>
       </q-form>
+    <div class="admin">
+     <q-btn push rounded color="black" @click="redirecionar" label="Admin"/>
+    </div>
     </div>
   </div>
 </template>
@@ -52,18 +55,18 @@ export default {
       login(cpf.value, chaveAcesso.value.toLocaleUpperCase());
     };
 
+    const redirecionar = () => {
+      router.push({ path: '/loginadm' });
+    };
+
     const login = async (cpf, chaveAcesso) => {
       try {
-        const response = await axios.get('http://localhost:3000/usuarios');
+        const response = await axios.get('http://localhost:3000/apartamentos');
         const usuarios = response.data;
-        const usuario = usuarios.find((u) => u.cpf === cpf && u.codigo_acesso === chaveAcesso);
+        const usuario = usuarios.find((u) => u.cpf === cpf && u.identificacao === chaveAcesso);
         if (usuario) {
           localStorage.setItem('usuario', JSON.stringify(usuario));
-          if (usuario.tipo === 'inquilino') {
-            router.push({ path: '/encomendas' });
-          } else {
-            router.push({ path: '/menu/inicial' });
-          }
+          router.push({ path: '/encomendas' });
         } else {
           $q.notify({
             type: 'negative',
@@ -85,6 +88,7 @@ export default {
       chaveAcesso,
       handleSubmit,
       error,
+      redirecionar,
     };
   },
 };
@@ -151,6 +155,13 @@ template{
 .loginButao {
   width: 100%;
   font-weight: bold;
+}
+
+.admin{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .header {

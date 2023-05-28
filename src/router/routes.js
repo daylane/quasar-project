@@ -46,9 +46,9 @@ const routes = [
     component: Login,
   },
   {
-    path: "/testComp",
-    name: "CompTest",
-    component: () => import("components/adminUser.vue"),
+    path: "/loginadm",
+    name: "Login Adm",
+    component: () => import("pages/LoginPageAdm.vue"),
   },
   // Always leave this as last one,
   // but you can also remove it
