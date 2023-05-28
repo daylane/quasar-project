@@ -37,7 +37,7 @@ import { defineComponent, ref } from 'vue';
 
 const linksList = [
   {
-    title: 'Administrar Usuarios',
+    title: 'Administrar Inquilinos',
     icon: 'person_add',
     path: '#/menu/admUsuario',
   },

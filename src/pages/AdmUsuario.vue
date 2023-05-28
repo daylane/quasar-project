@@ -3,8 +3,7 @@
   <div>
     <q-tabs v-model="activeTab">
       <q-tab name="secao1">Adicionar</q-tab>
-      <q-tab name="secao2">Excluir</q-tab>
-      <q-tab name="secao3">Editar</q-tab>
+      <q-tab name="secao2">Usuarios</q-tab>
     </q-tabs>
 
     <q-tab-panels v-model="activeTab">
@@ -23,40 +22,62 @@
       </q-tab-panel>
 
       <q-tab-panel name="secao2">
-        <h5>Excluir Usuario</h5>
-        <q-select
-          v-model="usuarioSelecionado"
-          :options="usuarios"
-          option-value="nome"
-          option-label="nome"
-          label="Selecione um usuário"
-        ></q-select>
-        <q-btn class="botao" color="negative" label="Excluir" @click="excluirUsuario" :disable="!usuarioSelecionado"></q-btn>
+        <h5>Administrar Usuarios</h5>
+        <div class="row q-col-gutter-sm">
+      <div class="col">
+        <q-table
+          class="table"
+          :filter="filter"
+          :rows="rows"
+          :columns="columns"
+          row-key="name"
+          dense
+        >
+        <template v-slot:top-right>
+            <q-input borderless dense debounce="300" v-model="filter" placeholder="Pesquisa">
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+          </template>
 
-      </q-tab-panel>
+          <template v-slot:body-cell-editar="props">
+            <q-td :props="props">
+              <q-btn dense round flat color="blue" @click="handleClick(props)" icon="edit"></q-btn>
+            </q-td>
+          </template>
+          <template v-slot:body-cell-excluir="props">
+            <q-td :props="props">
+              <q-btn dense round flat color="red" @click="excluirUsuario(props)" icon="delete"></q-btn>
+            </q-td>
+          </template>
+        </q-table>
+      </div>
 
-          <q-tab-panel name="secao3">
-      <h5>Editar Usuario</h5>
-      <q-select
-        v-model="usuarioSelecionado"
-        :options="usuarios"
-        option-value="nome"
-        option-label="nome"
-        label="Selecione um usuário"
-      ></q-select>
+      <q-dialog v-model="icon">
+      <q-card>
+        <q-card-section class="row items-center q-pb-none">
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+        <q-card-section>
+          <h5>Editar Usuario</h5>
       <q-input v-model="novoNome" label="Novo Nome"></q-input>
       <q-input v-model="novoCpf" label="Novo CPF"></q-input>
       <q-input v-model="novoAcesso" label="Novo Acesso"></q-input>
       <q-select v-model="novoTipo" :options="options" label="Tipo"></q-select>
-      <q-btn class="botao" color="primary" label="Editar" @click="editarUsuario" :disable="!usuarioSelecionado"></q-btn>
-    </q-tab-panel>
-
+      <q-btn class="botao" color="primary" label="Editar" @click="editarUsuario"></q-btn>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+        </div>
+      </q-tab-panel>
     </q-tab-panels>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import { useQuasar } from 'quasar';
 import { ref } from 'vue';
 
 export default {
@@ -67,6 +88,7 @@ export default {
       codigoAcesso: '',
       nome: '',
       tipo: '',
+      id: '',
       usuarios: [],
       usuarioSelecionado: null,
       novoNome: '',
@@ -76,7 +98,56 @@ export default {
       model: ref(null),
       options: [
         'inquilino', 'porteiro', 'sindico',
-      ]
+      ],
+      filter: ref(''),
+      columns: [
+        {
+          name: 'id',
+          label: 'Id',
+          align: 'left',
+          field: 'id',
+          sortable: true
+        },
+        {
+          name: 'nome',
+          label: 'Nome',
+          align: 'left',
+          field: 'nome'
+        },
+        {
+          name: 'cpf',
+          label: 'CPF',
+          align: 'left',
+          field: 'cpf'
+        },
+        {
+          name: 'codigo_acesso',
+          label: 'Apartamentos',
+          align: 'left',
+          field: 'codigo_acesso'
+        },
+        {
+          name: 'tipo',
+          label: 'Tipo',
+          align: 'left',
+          field: 'tipo'
+        },
+        {
+          name: 'editar',
+          label: 'Editar',
+          align: 'left',
+          field: 'editar'
+        },
+        {
+          name: 'excluir',
+          label: 'Excluir',
+          align: 'left',
+          field: 'excluir'
+        },
+
+      ],
+      rows: [],
+      icon: ref(false),
     };
   },
   mounted() {
@@ -88,7 +159,7 @@ export default {
         await axios.post('http://localhost:3000/usuarios', {
           nome: this.nome,
           cpf: this.cpf,
-          codigo_acesso: this.codigoAcesso,
+          codigo_acesso: this.codigoAcesso.toLocaleUpperCase(),
           tipo: this.tipo,
         });
         console.log('Usuário adicionado com sucesso!');
@@ -105,56 +176,72 @@ export default {
       try {
         const response = await axios.get('http://localhost:3000/usuarios');
         this.usuarios = response.data;
+        this.rows = response.data;
       } catch (error) {
         console.error('Erro ao buscar usuários:', error);
       }
     },
-    async excluirUsuario() {
-      if (!this.usuarioSelecionado) return;
-
-      const userId = this.usuarioSelecionado.id;
-
+    async excluirUsuario(props) {
+      const $q = useQuasar();
+      const userId = props.row.id;
       try {
         await axios.delete(`http://localhost:3000/usuarios/${userId}`);
-        console.log('Usuário excluído com sucesso!');
         this.buscarUsuarios();
-        this.usuarioSelecionado = null;
+        $q.notify({
+          type: 'positive',
+          message: 'Usuário excluído com sucesso!',
+          position: 'top',
+        });
       } catch (error) {
-        console.error('Erro ao excluir usuário:', error);
+        $q.notify({
+          type: 'negative',
+          message: error,
+          position: 'top',
+        });
       }
     },
+    handleClick(props) {
+      this.icon = true;
+      this.id = props.row.id;
+      this.novoNome = props.row.nome;
+      this.novoCpf = props.row.cpf;
+      this.novoAcesso = props.row.codigo_acesso;
+      this.novoTipo = props.row.tipo;
+    },
     async editarUsuario() {
-      if (!this.usuarioSelecionado) return;
-
-      const userId = this.usuarioSelecionado.id;
+      const $q = useQuasar();
+      const userId = this.id;
 
       try {
-        const response = await axios.get(`http://localhost:3000/usuarios/${userId}`);
-        const userData = response.data;
-
         const data = {
-          nome: this.novoNome || userData.nome,
-          cpf: this.novoCpf || userData.cpf,
-          codigo_acesso: this.novoAcesso || userData.codigo_acesso,
-          tipo: this.novoTipo || userData.tipo,
+          nome: this.novoNome,
+          cpf: this.novoCpf,
+          codigo_acesso: this.novoAcesso,
+          tipo: this.novoTipo,
         };
 
         await axios.put(`http://localhost:3000/usuarios/${userId}`, data);
-        console.log('Usuário editado com sucesso!');
-        this.buscarUsuarios();
-        this.usuarioSelecionado = null;
+
         this.novoNome = '';
         this.novoCpf = '';
         this.novoAcesso = '';
         this.novoTipo = '';
       } catch (error) {
-        console.error('Erro ao editar usuário:', error);
+        $q.notify({
+          type: 'negative',
+          message: error,
+          position: 'top',
+        });
       }
     },
   }
 };
 </script>
 <style>
+.q-field__native {
+  color: #000000 !important;
+}
+
 h5 {
     margin: 5px;
 
@@ -182,5 +269,34 @@ margin: 10px;
   max-width: 160px;
   max-height: 80%;
   height: auto;
+}
+.q-table__top {
+  background-color: #748086;
+  color: white;
+}
+
+.q-table__bottom {
+  background-color: #748086;
+  color: white;
+}
+
+.q-field__native {
+  color: white;
+}
+
+.table thead tr:first-child th {
+  background-color: #748086;
+}
+
+.table thead td {
+  background-color: #000000;
+}
+
+.table thead tr:firt-child th {
+  top: 0px;
+}
+
+.table th {
+  color: white;
 }
 </style>
