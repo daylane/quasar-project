@@ -143,24 +143,19 @@
       "id": 11
     },
     {
-      "cpf": [
-        "123"
-      ],
+      "cpf": "123",
       "destinatario": "321AB",
       "recebedor": "ppp",
-      "coletor": "AGORA",
-      "dataRetirada": "2023-05-29",
+      "coletor": "AAAAAAAAAA",
+      "dataRetirada": "2023-05-08",
       "id": 12
     },
     {
-      "cpf": [
-        "12223"
-      ],
-      "destinatario": "1111",
+      "cpf": "123",
+      "destinatario": "321AB",
       "recebedor": "ppp",
-      "dataRecebimento": "2023-05-29",
-      "coletor": "",
-      "dataRetirada": "",
+      "coletor": "aabbbbbbbbb",
+      "dataRetirada": "2023-05-09",
       "id": 13
     }
   ]
