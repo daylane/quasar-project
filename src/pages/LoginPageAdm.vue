@@ -29,7 +29,11 @@
         </div>
         <q-btn push rounded color="secondary" class="loginButao" type="submit" label="Iniciar"/>
         <div v-if="error" class="text-negative q-mt-md">{{ error }}</div>
+        <div clas="inquilino">
+        <q-btn push rounded color="blue" @click="redirecionar" label="Inquilino"/>
+      </div>
       </q-form>
+
     </div>
   </div>
 </template>
@@ -47,6 +51,10 @@ export default {
     const router = useRouter();
 
     const $q = useQuasar();
+
+    const redirecionar = () => {
+      router.push({ path: '/' });
+    };
 
     const handleSubmit = () => {
       login(cpf.value, chaveAcesso.value.toLocaleUpperCase());
@@ -82,6 +90,7 @@ export default {
       chaveAcesso,
       handleSubmit,
       error,
+      redirecionar,
     };
   },
 };
@@ -155,6 +164,13 @@ template{
   padding: 70px 0px 0px 0px;
   flex-wrap: wrap;
   flex-direction: column;
+}
+
+.inquilino{
+display: flex;
+flex-wrap: wrap;
+justify-content: flex-end;
+align-items: center;
 }
 
 .mt-3 {
