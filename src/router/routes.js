@@ -45,6 +45,11 @@ const routes = [
     name: "Login Usuario",
     component: Login,
   },
+  {
+    path: "/testComp",
+    name: "CompTest",
+    component: () => import("components/adminUser.vue"),
+  },
   // Always leave this as last one,
   // but you can also remove it
   {
