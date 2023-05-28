@@ -19,11 +19,6 @@
       "identificacao": "145",
       "cpf": "12111",
       "id": 4
-    },
-    {
-      "cpf": "111",
-      "identificacao": "111",
-      "id": 6
     }
   ],
   "usuarios": [
@@ -38,7 +33,7 @@
       "nome": "1day",
       "cpf": "444",
       "codigo_acesso": "321AB",
-      "tipo": "inquilino",
+      "tipo": "sindico",
       "id": 3
     },
     {
@@ -143,10 +138,30 @@
       "cpf": "07633630574",
       "destinatario": "321AB",
       "recebedor": "Daylane",
-      "coletor": "",
-      "dataRecebimento": "",
-      "dataRetirada": "",
+      "coletor": "ueu",
+      "dataRetirada": "2023-05-29",
       "id": 11
+    },
+    {
+      "cpf": [
+        "123"
+      ],
+      "destinatario": "321AB",
+      "recebedor": "ppp",
+      "coletor": "AGORA",
+      "dataRetirada": "2023-05-29",
+      "id": 12
+    },
+    {
+      "cpf": [
+        "12223"
+      ],
+      "destinatario": "1111",
+      "recebedor": "ppp",
+      "dataRecebimento": "2023-05-29",
+      "coletor": "",
+      "dataRetirada": "",
+      "id": 13
     }
   ]
 }

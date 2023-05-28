@@ -66,6 +66,7 @@ const linksList = [
   },
 
 ];
+
 if (acesso.value.tipo === 'porteiro') {
   const index = linksList.findIndex((link) => link.path === '#/menu/admUsuarioSindico');
   if (index !== -1) {

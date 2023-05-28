@@ -8,7 +8,7 @@
 
     <q-tab-panels v-model="activeTab">
       <q-tab-panel name="apartamentos">
-        <h2>Pesquisar Apartamentos</h2>
+        <h5>Pesquisar Apartamentos</h5>
         <q-table title="Apartamentos" class="table" :rows="rowsApartamentos" :columns="columnsApartamentos" row-key="id"
           :filter="filter" no-data-label="Não tem registro encomedas!">
           <template v-slot:top-right>
@@ -22,7 +22,7 @@
       </q-tab-panel>
 
       <q-tab-panel name="encomendas">
-        <h2>Pesquisar Encomendas</h2>
+        <h5>Pesquisar Encomendas</h5>
         <div class="q-pa-md">
           <q-table title="Encomendas" class="table" :rows="rowsEncomendas" :columns="columnsEncomendas" :filter="filter"
             row-key="id" no-data-label="Não tem encomendas!">

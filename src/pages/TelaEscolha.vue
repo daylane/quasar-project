@@ -19,7 +19,7 @@
 
     <q-tab-panels v-model="activeTab">
       <q-tab-panel name="historicoEncomenda">
-        <h2>Histórico de Encomendas</h2>
+        <h5>Histórico de Encomendas</h5>
         <q-table title="Historico de Encomendas" :rows="rowsHistorico" :columns="columns" row-key="id"
           no-data-label="Não tem registro encomedas!" >
 
@@ -35,7 +35,7 @@
       </q-tab-panel>
 
       <q-tab-panel name="pendenciaEncomenda">
-        <h2>Retirar Encomendas</h2>
+        <h5>Retirar Encomendas</h5>
         <q-table title="Pêndencia de Encomendas" :rows="rowsPendencia" :columns="columns" row-key="id"
           no-data-label="Não tem novas encomedas!" >
           <template v-slot:top-right>
